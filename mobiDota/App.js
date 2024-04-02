@@ -1,22 +1,23 @@
 import { StatusBar } from 'expo-status-bar';
 import { Button, StyleSheet, Text, View } from 'react-native';
-import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Home from './screens/Home.js';
+import Proplayers from './screens/Proplayers.js';
 
-function HomeScreen({ navigation }) {
-  // will have buttons of main comps?
-  return (
-    <View style={styles.container}>
-      <Text>Home Screen</Text>
-      <Button style={styles.button}
-        title="Go to Details"
-        onPress={() => navigation.navigate('Details')}
-      />
-    </View>
-  );
-}
+// function HomeScreen({ navigation }) {
+//   // will have buttons of main comps?
+//   return (
+//     <View style={styles.container}>
+//       <Text>Home Screen</Text>
+//       <Button style={styles.button}
+//         title="Go to Details"
+//         onPress={() => navigation.navigate('Details')}
+//       />
+//     </View>
+//   );
+// }
 function DetailsScreen() {
   return (
     <View style={styles.container}>
@@ -31,8 +32,8 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Details" component={DetailsScreen} />
+        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Proplayers" component={Proplayers} />
       </Stack.Navigator>
     </NavigationContainer>
   );
