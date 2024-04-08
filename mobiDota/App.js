@@ -5,50 +5,44 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './screens/Home.js';
 import Proplayers from './screens/Proplayers.js';
+import Proteams from './screens/Proteams.js';
+import Proteam from './screens/Proteam.js';
 import * as SQLite from 'expo-sqlite';
 import { useEffect, useState } from 'react';
 import db from './db/db.js'
 import { ThemeProvider, createTheme } from '@rneui/themed';
 
-const theme = createTheme({
-  lightColors: {
-    primary: '#e7e7e8',
-  },
-  darkColors: {
-    primary: '#000',
-  },
-  mode: 'light',
-});
-
-// function HomeScreen({ navigation }) {
-//   // will have buttons of main comps?
-//   return (
-//     <View style={styles.container}>
-//       <Text>Home Screen</Text>
-//       <Button style={styles.button}
-//         title="Go to Details"
-//         onPress={() => navigation.navigate('Details')}
-//       />
-//     </View>
-//   );
-// }
-function DetailsScreen() {
-  return (
-    <View style={styles.container}>
-      <Text>Details Screen</Text>
-    </View>
-  );
-}
-
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+
+  const [proplayers, setProplayers] = useState([]);
+ //run at first render
+ useEffect(() => {
+  
+  db.transaction(tx => {
+    tx.executeSql('create table if not exists proplayers (id integer primary key not null, name text, teamid int);');
+    }, null, updateList);
+}, []);
+
+const updateList = () => {
+  db.transaction(tx => {
+    tx.executeSql('select * from proplayers;', [], (_, { rows }) =>
+      setProplayers(rows._array)
+    );
+  });
+}
+console.log(proplayers);
+
+
   return (
     
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Proplayers" component={Proplayers} />
+        <Stack.Screen name="Proteams" component={Proteams} />
+        <Stack.Screen name="Proteam" component={Proteam} />
       </Stack.Navigator>
     </NavigationContainer>
     

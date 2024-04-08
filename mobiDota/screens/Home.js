@@ -11,7 +11,7 @@ export default function Home({ navigation }) {
   // console.log(db);
   return (
     <View style={styles.container}>
-      <Text>Home Screen</Text>
+      <Text>Application for viewing pro dota information</Text>
       <Button buttonStyle={{ backgroundColor: 'rgba(39, 39, 39, 1)' }}
               containerStyle={{
                 width: 200,
@@ -19,7 +19,7 @@ export default function Home({ navigation }) {
                 marginVertical: 10,
               }}
         title="Pro Teams"
-        onPress={() => navigation.navigate('Proplayers')}
+        onPress={() => navigation.navigate('Proteams')}
       />
       <Button 
         title="Pro Players"

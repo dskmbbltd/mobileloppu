@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Alert, Button, FlatList, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Alert, Button, FlatList, StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -7,8 +7,10 @@ import { useEffect, useRef, useState } from 'react';
 import { Card, ListItem, Avatar } from '@rneui/themed';
 import db from '../db/db.js'
 import proteamids from '../predata/proteamids.js';
-
-export default function Proplayers() {
+//TODO
+ 
+  //SEARCH BY PLAYERNAME OR TEAM
+   //esim data
   // {
   //   "team_id": 9247354,
   //   "rating": 1684.72,
@@ -19,13 +21,34 @@ export default function Proplayers() {
   //   "tag": "FLCN",
   //   "logo_url": "https://steamusercontent-a.akamaihd.net/ugc/2314350571781870059/2B5C9FE9BA0A2DC303A13261444532AA08352843/"
   // }
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: '#fff',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },  horizontal: {
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+      padding: 10,
+    }, loading: {
+      paddingTop:'100%',
+      
+    }
+  });
+
+export default function Proplayers({navigation}) {
+ 
 
   const urldatdota = "https://www.datdota.com/teams/"
   const urldotabuff = "https://www.dotabuff.com/esports/teams/"
   const urlstratz = "https://stratz.com/teams/"
+  const [playersData, setPlayersData] = useState([]);
+  const [teamsData, setTeamsData] = useState([]);
+  const [isLoadingTeam, setIsLoadingTeam] = useState(true);
+  const [isLoadingPlayers, setIsLoadingPlayers] = useState(true);
 
-  //TODO
-  //SEARCH BY PLAYERNAME OR TEAM
+  
   let proTeamIdsAsNmbr = proteamids.map(Number);
   useEffect(() => {
     db.transaction(tx => {
@@ -41,12 +64,8 @@ export default function Proplayers() {
     });
   }
 
-  // PLAYERS DATA GOES HERE
-  const [playersData, setPlayersData] = useState([]);
-  // TEAM DATA GOES HERE
-  // TEAM DATA TO BE RENDERED HERE
-  const [teamsData, setTeamsData] = useState([]);
 
+  
   // GET PRO PLAYERS DATA
   const getProPlayersData = async () => {
     const url = "https://api.opendota.com/api/proPlayers"
@@ -54,13 +73,13 @@ export default function Proplayers() {
       const response = await fetch(url);
       console.log("Response status", response.status);
       const playersJSON = await response.json();
-      setPlayersData(playersJSON)
+      let prosInTeamList = playersJSON.filter(obj => proTeamIdsAsNmbr.includes(obj.team_id));
+      setPlayersData(prosInTeamList);
+      setIsLoadingPlayers(false);
     } catch (e) {
       Alert.alert("Error fetching player data")
     }
   }
-
-  
 
   // GET ALL TEAMS
   const getAllTeamsData = async () => {
@@ -73,18 +92,15 @@ export default function Proplayers() {
       // only set data for team id found in ../predata/proteamids.js
       let teamInProTeamList = teamsJSON.filter(obj => proTeamIdsAsNmbr.includes(obj.team_id));
       setTeamsData(teamInProTeamList);
-
+      setIsLoadingTeam(false);
     } catch (e) {
       Alert.alert("Error fetching team data")
     }
-    // }
   }
-
-
 
   // CALL ON FIRST LOAD
   useEffect(() => { getAllTeamsData() }, []);
-  // useEffect(() => { getProPlayersData() }, []);
+  useEffect(() => { getProPlayersData() }, []);
   
 
   keyExtractor = (item, index) => index.toString();
@@ -94,32 +110,31 @@ export default function Proplayers() {
       <ListItem.Content>
         <ListItem.Title>{item.name}</ListItem.Title>
         <ListItem.Subtitle>{item.rating}</ListItem.Subtitle>
-      </ListItem.Content>
-      <ListItem.Chevron />
+            </ListItem.Content>
+      <ListItem.Chevron onPress={() => navigation.navigate('Proteam', {item:item, playersData:playersData})}/>
     </ListItem>
   );
 
+  const getAPIdata = () => {
+    if (isLoadingTeam || isLoadingPlayers) {
+      return <><ActivityIndicator style={styles.loading} size="large" /><Text style={{textAlign:'center'}}>Fetching data...</Text></>
+    }
+    return <FlatList
+    initialNumToRender={15}
+    maxToRenderPerBatch={15}
+    keyExtractor={this.keyExtractor}
+    data={teamsData}
+    renderItem={this.renderItem}
+  />
+  }
 
   return (
-    <View><FlatList
-      initialNumToRender={15}
-      maxToRenderPerBatch={15}
-      keyExtractor={this.keyExtractor}
-      data={teamsData}
-      renderItem={this.renderItem}
-    /></View>
+    <View >{getAPIdata()}</View>
   );
-
-
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-  });
 }
+
+
+
 
 
 
