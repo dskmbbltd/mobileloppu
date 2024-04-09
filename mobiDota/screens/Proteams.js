@@ -1,44 +1,73 @@
 import { StatusBar } from 'expo-status-bar';
 import { ActivityIndicator, Alert, Button, FlatList, StyleSheet, Text, View } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useEffect, useRef, useState } from 'react';
 import { Card, ListItem, Avatar } from '@rneui/themed';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import db from '../db/db.js'
 import proteamids from '../predata/proteamids.js';
 //TODO
- 
-  //SEARCH BY PLAYERNAME OR TEAM
-   //esim data
-  // {
-  //   "team_id": 9247354,
-  //   "rating": 1684.72,
-  //   "wins": 109,
-  //   "losses": 36,
-  //   "last_match_time": 1712510221,
-  //   "name": "Team Falcons",
-  //   "tag": "FLCN",
-  //   "logo_url": "https://steamusercontent-a.akamaihd.net/ugc/2314350571781870059/2B5C9FE9BA0A2DC303A13261444532AA08352843/"
-  // }
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },  horizontal: {
-      flexDirection: 'row',
-      justifyContent: 'space-around',
-      padding: 10,
-    }, loading: {
-      paddingTop:'100%',
-      
-    }
-  });
 
-export default function Proplayers({navigation}) {
- 
+//SEARCH BY PLAYERNAME OR TEAM
+//esim data
+// {
+//   "team_id": 9247354,
+//   "rating": 1684.72,
+//   "wins": 109,
+//   "losses": 36,
+//   "last_match_time": 1712510221,
+//   "name": "Team Falcons",
+//   "tag": "FLCN",
+//   "logo_url": "https://steamusercontent-a.akamaihd.net/ugc/2314350571781870059/2B5C9FE9BA0A2DC303A13261444532AA08352843/"
+// }
+
+// useEffect(() => {
+//   db.transaction(tx => {
+//     tx.executeSql('create table proplayers if not exists (id integer primary key not null, name text, teamid integer);');
+//   }, null, updateList);
+// }, []);
+
+// const updateList = () => {
+//   db.transaction(tx => {
+//     tx.executeSql('select * from proplayers;', [], (_, { rows }) =>
+//       setPlayersFromDB(rows._array)
+//     );
+//   });
+// }
+// // GET PRO PLAYERS DATA
+// const getProPlayersData = async () => {
+//   const url = "https://api.opendota.com/api/proPlayers"
+//   try {
+//     const response = await fetch(url);
+//     console.log("Response status", response.status);
+//     const playersJSON = await response.json();
+//     let prosInTeamList = playersJSON.filter(obj => proTeamIdsAsNmbr.includes(obj.team_id));
+//     setPlayersData(prosInTeamList);
+//     setIsLoadingPlayers(false);
+//   } catch (e) {
+//     Alert.alert("Error fetching player data")
+//   }
+// }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }, horizontal: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 10,
+  }, loading: {
+    paddingTop: '100%',
+
+  }
+});
+
+export default function Proplayers({ navigation }) {
+
 
   const urldatdota = "https://www.datdota.com/teams/"
   const urldotabuff = "https://www.dotabuff.com/esports/teams/"
@@ -47,39 +76,36 @@ export default function Proplayers({navigation}) {
   const [teamsData, setTeamsData] = useState([]);
   const [isLoadingTeam, setIsLoadingTeam] = useState(true);
   const [isLoadingPlayers, setIsLoadingPlayers] = useState(true);
-
-  
-  let proTeamIdsAsNmbr = proteamids.map(Number);
-  useEffect(() => {
-    db.transaction(tx => {
-      tx.executeSql('create table proplayers if not exists (id integer primary key not null, name text, teamid integer);');
-    }, null, updateList);
-  }, []);
-
-  const updateList = () => {
-    db.transaction(tx => {
-      tx.executeSql('select * from proplayers;', [], (_, { rows }) =>
-        setPlayersFromDB(rows._array)
-      );
-    });
-  }
+  const proTeamIdsAsNmbr = proteamids.map(Number);
 
 
-  
-  // GET PRO PLAYERS DATA
-  const getProPlayersData = async () => {
-    const url = "https://api.opendota.com/api/proPlayers"
+  const getCachedData = async () => {
     try {
-      const response = await fetch(url);
-      console.log("Response status", response.status);
-      const playersJSON = await response.json();
-      let prosInTeamList = playersJSON.filter(obj => proTeamIdsAsNmbr.includes(obj.team_id));
-      setPlayersData(prosInTeamList);
-      setIsLoadingPlayers(false);
+      const cachedTeams = await AsyncStorage.getItem('cachedTeams');
+      const cachedTeamsTime = await AsyncStorage.getItem('cachedTeamsTime');
+      const maxStaleTime = 10 * 60 * 1000; // 10min for testing
+
+      if (cachedTeams && maxStaleTime) {
+        const teamsTime = parseInt(cachedTeamsTime);
+        console.log(teamsTime)
+        if (Date.now() - teamsTime < maxStaleTime) { // DATA EXISTS, IS FRESH
+          setTeamsData(JSON.parse(cachedTeams));
+          console.log("loading cached data")
+          setIsLoadingTeam(false);
+        } else { // DATA STALE
+          console.log("data is stale, fetching")
+          await getAllTeamsData();
+        }
+      } else {
+        await getAllTeamsData(); // NO DATA
+      }
     } catch (e) {
-      Alert.alert("Error fetching player data")
+      Alert.alert("Error fetching team data:", e)
     }
-  }
+  };
+
+
+
 
   // GET ALL TEAMS
   const getAllTeamsData = async () => {
@@ -90,18 +116,25 @@ export default function Proplayers({navigation}) {
       console.log("Response status", response.status);
       const teamsJSON = await response.json();
       // only set data for team id found in ../predata/proteamids.js
-      let teamInProTeamList = teamsJSON.filter(obj => proTeamIdsAsNmbr.includes(obj.team_id));
-      setTeamsData(teamInProTeamList);
+      let teamsInProTeamList = teamsJSON.filter(obj => proTeamIdsAsNmbr.includes(obj.team_id));
+      // save to cache
+      await AsyncStorage.setItem('cachedTeams', JSON.stringify(teamsInProTeamList));
+      await AsyncStorage.setItem('cachedTeamsTime', Date.now().toString());
+      // use states for shown data
+      setTeamsData(teamsInProTeamList);
       setIsLoadingTeam(false);
+      console.log("data from API call")
     } catch (e) {
-      Alert.alert("Error fetching team data")
+      Alert.alert("Error fetching team data:", e)
     }
   }
 
+
+
   // CALL ON FIRST LOAD
-  useEffect(() => { getAllTeamsData() }, []);
-  useEffect(() => { getProPlayersData() }, []);
-  
+  useEffect(() => { getCachedData() }, []);
+  // useEffect(() => { getProPlayersData() }, []);
+
 
   keyExtractor = (item, index) => index.toString();
   renderItem = ({ item }) => (
@@ -110,22 +143,24 @@ export default function Proplayers({navigation}) {
       <ListItem.Content>
         <ListItem.Title>{item.name}</ListItem.Title>
         <ListItem.Subtitle>{item.rating}</ListItem.Subtitle>
-            </ListItem.Content>
-      <ListItem.Chevron onPress={() => navigation.navigate('Proteam', {item:item, playersData:playersData})}/>
+      </ListItem.Content>
+      <ListItem.Chevron onPress={() => navigation.navigate('Proteam', { item: item })} />
+      {/* <ListItem.Chevron onPress={() => navigation.navigate('Proteam', {item:item, playersData:playersData})}/> */}
     </ListItem>
   );
 
+  // RETURNED
   const getAPIdata = () => {
-    if (isLoadingTeam || isLoadingPlayers) {
-      return <><ActivityIndicator style={styles.loading} size="large" /><Text style={{textAlign:'center'}}>Fetching data...</Text></>
+    if (isLoadingTeam) {
+      return <><ActivityIndicator style={styles.loading} size="large" /><Text style={{ textAlign: 'center' }}>Fetching data...</Text></>
     }
     return <FlatList
-    initialNumToRender={15}
-    maxToRenderPerBatch={15}
-    keyExtractor={this.keyExtractor}
-    data={teamsData}
-    renderItem={this.renderItem}
-  />
+      initialNumToRender={15}
+      maxToRenderPerBatch={15}
+      keyExtractor={this.keyExtractor}
+      data={teamsData}
+      renderItem={this.renderItem}
+    />
   }
 
   return (

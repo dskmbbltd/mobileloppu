@@ -8,7 +8,6 @@ import { Button } from '@rneui/themed'
 
 export default function Home({ navigation }) {
   // will have buttons of main comps?
-  // console.log(db);
   return (
     <View style={styles.container}>
       <Text>Application for viewing pro dota information</Text>
