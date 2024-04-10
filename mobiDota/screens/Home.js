@@ -30,6 +30,16 @@ export default function Home({ navigation }) {
               }}
         onPress={() => navigation.navigate('Proplayers')}
       />
+      <Button 
+        title="Pro Leagues"
+        buttonStyle={{ backgroundColor: 'rgba(39, 39, 39, 1)' }}
+              containerStyle={{
+                width: 200,
+                marginHorizontal: 50,
+                marginVertical: 10,
+              }}
+        onPress={() => navigation.navigate('Leagues')}
+      />
     </View>
   );
 }

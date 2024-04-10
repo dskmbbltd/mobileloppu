@@ -7,6 +7,7 @@ import Home from './screens/Home.js';
 import Proplayers from './screens/Proplayers.js';
 import Proteams from './screens/Proteams.js';
 import Proteam from './screens/Proteam.js';
+import Leagues from './screens/Leagues.js';
 import * as SQLite from 'expo-sqlite';
 import { useEffect, useState } from 'react';
 import db from './db/db.js'
@@ -43,6 +44,7 @@ console.log(proplayers);
         <Stack.Screen name="Proplayers" component={Proplayers} />
         <Stack.Screen name="Proteams" component={Proteams} />
         <Stack.Screen name="Proteam" component={Proteam} />
+        <Stack.Screen name="Leagues" component={Leagues} />
       </Stack.Navigator>
     </NavigationContainer>
     
