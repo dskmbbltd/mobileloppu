@@ -1,3 +1,0 @@
-loadingSpinner
-https://www.youtube.com/watch?v=_VZfBrmunD4
-https://reactnative.dev/docs/activityindicator
