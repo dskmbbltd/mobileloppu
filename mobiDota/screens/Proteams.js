@@ -24,33 +24,6 @@ import getDataCacheAPI from '../predata/apidatafunctions.js'
 //   "logo_url": "https://steamusercontent-a.akamaihd.net/ugc/2314350571781870059/2B5C9FE9BA0A2DC303A13261444532AA08352843/"
 // }
 
-// useEffect(() => {
-//   db.transaction(tx => {
-//     tx.executeSql('create table proplayers if not exists (id integer primary key not null, name text, teamid integer);');
-//   }, null, updateList);
-// }, []);
-
-// const updateList = () => {
-//   db.transaction(tx => {
-//     tx.executeSql('select * from proplayers;', [], (_, { rows }) =>
-//       setPlayersFromDB(rows._array)
-//     );
-//   });
-// }
-// // GET PRO PLAYERS DATA
-// const getProPlayersData = async () => {
-//   const url = "https://api.opendota.com/api/proPlayers"
-//   try {
-//     const response = await fetch(url);
-//     console.log("Response status", response.status);
-//     const playersJSON = await response.json();
-//     let prosInTeamList = playersJSON.filter(obj => proTeamIdsAsNmbr.includes(obj.team_id));
-//     setPlayersData(prosInTeamList);
-//     setIsLoadingPlayers(false);
-//   } catch (e) {
-//     Alert.alert("Error fetching player data")
-//   }
-// }
 const styles = StyleSheet.create({
   container: {
     flex: 1,
