@@ -19,7 +19,20 @@ export default function Proplayers() {
   //   "tag": "FLCN",
   //   "logo_url": "https://steamusercontent-a.akamaihd.net/ugc/2314350571781870059/2B5C9FE9BA0A2DC303A13261444532AA08352843/"
   // }
+  // useEffect(() => {
+  //   db.transaction(tx => {
+  //     tx.executeSql('create table proplayers if not exists (id integer primary key not null, name text, teamid integer);');
+  //   }, null, updateList);
+  // }, []);
 
+  // const updateList = () => {
+  //   db.transaction(tx => {
+  //     tx.executeSql('select * from proplayers;', [], (_, { rows }) =>
+  //       setPlayersFromDB(rows._array)
+  //     );
+  //   });
+  // }
+  
   const urldatdota = "https://www.datdota.com/teams/"
   const urldotabuff = "https://www.dotabuff.com/esports/teams/"
   const urlstratz = "https://stratz.com/teams/"
@@ -27,19 +40,7 @@ export default function Proplayers() {
   //TODO
   //SEARCH BY PLAYERNAME OR TEAM
   let proTeamIdsAsNmbr = proteamids.map(Number);
-  useEffect(() => {
-    db.transaction(tx => {
-      tx.executeSql('create table proplayers if not exists (id integer primary key not null, name text, teamid integer);');
-    }, null, updateList);
-  }, []);
 
-  const updateList = () => {
-    db.transaction(tx => {
-      tx.executeSql('select * from proplayers;', [], (_, { rows }) =>
-        setPlayersFromDB(rows._array)
-      );
-    });
-  }
 
   // PLAYERS DATA GOES HERE
   const [playersData, setPlayersData] = useState([]);

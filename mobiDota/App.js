@@ -17,24 +17,6 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
 
-  const [proplayers, setProplayers] = useState([]);
- //run at first render
- useEffect(() => {
-  
-  db.transaction(tx => {
-    tx.executeSql('create table if not exists proplayers (id integer primary key not null, name text, teamid int);');
-    }, null, updateList);
-}, []);
-
-const updateList = () => {
-  db.transaction(tx => {
-    tx.executeSql('select * from proplayers;', [], (_, { rows }) =>
-      setProplayers(rows._array)
-    );
-  });
-}
-console.log(proplayers);
-
 
   return (
     

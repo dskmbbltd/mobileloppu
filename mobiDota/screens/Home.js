@@ -8,39 +8,35 @@ import { Button } from '@rneui/themed'
 
 export default function Home({ navigation }) {
   // will have buttons of main comps?
+  const navigateButtons = [{
+    title: 'Pro teams',
+    navigate: 'Proteams'},
+    {
+      title: 'Pro players',
+    navigate: 'Proplayers'},
+    {
+      title: 'Leagues',
+    navigate: 'Leagues'}
+    ];
+
   return (
     <View style={styles.container}>
-      <Text>Application for viewing pro dota information</Text>
-      <Button buttonStyle={{ backgroundColor: 'rgba(39, 39, 39, 1)' }}
+      <Text>Application for viewing pro dota information.</Text>
+      <Text>Relying on opendota API.</Text>
+      {navigateButtons.map((screen, key) => {
+        return (
+          <Button buttonStyle={{ backgroundColor: 'rgba(39, 39, 39, 1)' }}
               containerStyle={{
                 width: 200,
                 marginHorizontal: 50,
                 marginVertical: 10,
               }}
-        title="Pro Teams"
-        onPress={() => navigation.navigate('Proteams')}
+        title={screen.title}
+        onPress={() => navigation.navigate(screen.navigate)}
       />
-      <Button 
-        title="Pro Players"
-        buttonStyle={{ backgroundColor: 'rgba(39, 39, 39, 1)' }}
-              containerStyle={{
-                width: 200,
-                marginHorizontal: 50,
-                marginVertical: 10,
-              }}
-        onPress={() => navigation.navigate('Proplayers')}
-      />
-      <Button 
-        title="Pro Leagues"
-        buttonStyle={{ backgroundColor: 'rgba(39, 39, 39, 1)' }}
-              containerStyle={{
-                width: 200,
-                marginHorizontal: 50,
-                marginVertical: 10,
-              }}
-        onPress={() => navigation.navigate('Leagues')}
-      />
-    </View>
+        )
+      })}
+      </View>
   );
 }
 
