@@ -7,7 +7,7 @@ import db from '../db/db.js'
 import { Button } from '@rneui/themed'
 
 export default function Home({ navigation }) {
-  // will have buttons of main comps?
+
   const navigateButtons = [{
     title: 'Pro teams',
     navigate: 'Proteams'},
@@ -25,7 +25,7 @@ export default function Home({ navigation }) {
       <Text>Relying on opendota API.</Text>
       {navigateButtons.map((screen, key) => {
         return (
-          <Button buttonStyle={{ backgroundColor: 'rgba(39, 39, 39, 1)' }}
+          <Button key={key} buttonStyle={{ backgroundColor: 'rgba(39, 39, 39, 1)' }}
               containerStyle={{
                 width: 200,
                 marginHorizontal: 50,

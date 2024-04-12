@@ -8,6 +8,7 @@ import { Card, ListItem, Avatar } from '@rneui/themed';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import db from '../db/db.js'
 import proteamids from '../predata/proteamids.js';
+import getDataCacheAPI from '../predata/apidatafunctions.js'
 //TODO
 
 //SEARCH BY PLAYERNAME OR TEAM
@@ -78,63 +79,20 @@ export default function Proplayers({ navigation }) {
   const [isLoadingPlayers, setIsLoadingPlayers] = useState(true);
   const proTeamIdsAsNmbr = proteamids.map(Number);
 
-
-  const getCachedData = async () => {
-    try {
-      const cachedTeams = await AsyncStorage.getItem('cachedTeams');
-      const cachedTeamsTime = await AsyncStorage.getItem('cachedTeamsTime');
-      const maxStaleTime = 10 * 60 * 1000; // 10min for testing
-
-      if (cachedTeams && maxStaleTime) {
-        const teamsTime = parseInt(cachedTeamsTime);
-        console.log(teamsTime)
-        if (Date.now() - teamsTime < maxStaleTime) { // DATA EXISTS, IS FRESH
-          setTeamsData(JSON.parse(cachedTeams));
-          console.log("loading cached data")
-          setIsLoadingTeam(false);
-        } else { // DATA STALE
-          console.log("data is stale, fetching")
-          await getAllTeamsData();
-        }
-      } else {
-        await getAllTeamsData(); // NO DATA
-      }
-    } catch (e) {
-      Alert.alert("Error fetching team data:", e)
-    }
-  };
-
-
-
-
-  // GET ALL TEAMS
-  const getAllTeamsData = async () => {
+  const getData = async () => {
     const url = "https://api.opendota.com/api/teams"
-
+    const cachedTeams = 'cachedTeams'
+    const caller = 'proteams'
     try {
-      const response = await fetch(url);
-      console.log("Response status", response.status);
-      const teamsJSON = await response.json();
-      // only set data for team id found in ../predata/proteamids.js
-      let teamsInProTeamList = teamsJSON.filter(obj => proTeamIdsAsNmbr.includes(obj.team_id));
-      // save to cache
-      await AsyncStorage.setItem('cachedTeams', JSON.stringify(teamsInProTeamList));
-      await AsyncStorage.setItem('cachedTeamsTime', Date.now().toString());
-      // use states for shown data
-      setTeamsData(teamsInProTeamList);
+      const fetchedData = await getDataCacheAPI(url, cachedTeams, 0, caller);
+      console.log("back here")
+      setTeamsData(fetchedData);
       setIsLoadingTeam(false);
-      console.log("data from API call")
     } catch (e) {
-      Alert.alert("Error fetching team data:", e)
+      Alert.alert("Error fetching data, function: getData", e)
     }
   }
-
-
-
-  // CALL ON FIRST LOAD
-  useEffect(() => { getCachedData() }, []);
-  // useEffect(() => { getProPlayersData() }, []);
-
+  useEffect(() => { getData() }, []);
 
   keyExtractor = (item, index) => index.toString();
   renderItem = ({ item }) => (
@@ -167,9 +125,3 @@ export default function Proplayers({ navigation }) {
     <View >{getAPIdata()}</View>
   );
 }
-
-
-
-
-
-
