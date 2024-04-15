@@ -57,19 +57,15 @@ const getDataCacheAPI = async (url, cache, cachedMaxTime = 600000, caller = '') 
 };
 
 const getFollowedData = async (cache) => {
-    console.log("ok")
-
     try {
     const cachedFollowed = await AsyncStorage.getItem(cache);
-    console.log("cachedFollowed");
     console.log(cachedFollowed);
     if (cachedFollowed !== null) {
-        console.log("piip")
         return JSON.parse(cachedFollowed);
     }
     return [];
 } catch (e) {
-    throw Alert.alert("Error fetching followed list.",e )
+    Alert.alert("Error fetching followed list.",e )
 }
 };
 const addFollowedData = async (cache, dataToAdd) => {
@@ -87,11 +83,9 @@ const addFollowedData = async (cache, dataToAdd) => {
 const removeFollowedData = async (cache, dataToRemove) => {
     try {
         const cachedFollowed = await getFollowedData(cache);
-        console.log("now removing")
-        console.log(cachedFollowed)
+        console.log(cachedFollowed);
         const dataRemoved = cachedFollowed.filter(followedId => followedId !== dataToRemove);
-        console.log("now removed")
-        console.log(dataRemoved)
+        console.log(dataRemoved);
         await AsyncStorage.setItem(cache, JSON.stringify(dataRemoved));
         return dataRemoved;
     } catch (e) {

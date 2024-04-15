@@ -54,9 +54,7 @@ export default function Proteam({ navigation, route }) {
     const getFollowedTeams = async () => {
         const followed = 'followedTeams';
         try {
-            console.log("herehere")
             const teams = await getFollowedData(followed);
-            console.log("here");
             if (teams !== null && teams.includes(team_id)){
                 setIsFollowed(true);
             }
