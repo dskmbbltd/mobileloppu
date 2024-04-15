@@ -8,7 +8,7 @@ import { Card, ListItem, Avatar } from '@rneui/themed';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import db from '../db/db.js'
 import proteamids from '../predata/proteamids.js';
-import getDataCacheAPI from '../predata/apidatafunctions.js'
+import {getDataCacheAPI} from '../predata/apidatafunctions.js'
 //TODO
 
 //SEARCH BY PLAYERNAME OR TEAM

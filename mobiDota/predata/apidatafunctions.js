@@ -5,24 +5,18 @@ import proteamids from '../predata/proteamids.js';
 import proleagueids from '../predata/proleagueids.js';
 
 const getDataCacheAPI = async (url, cache, cachedMaxTime = 600000, caller = '') => {
-    console.log(caller)
-    console.log(url)
+
     try {
         const cachedData = await AsyncStorage.getItem(cache);
         const cachedDataTime = await AsyncStorage.getItem(`${cache}Time`);
-        // const maxStaleTime = 10 * 60 * 1000; // 10min for testing
-        // console.log(cachedData)
 
         if (cachedData && cachedDataTime) {
-            const JSONparsed = JSON.parse(cachedData)
+            const JSONparsed = JSON.parse(cachedData);
             const dataTimeNow = parseInt(cachedDataTime);
 
             if (Date.now() - dataTimeNow < cachedMaxTime) { // DATA EXISTS, IS FRESH
-                console.log("loading cached data")
+                console.log("loading cached data");
                 return JSONparsed;
-                // } else { // DATA STALE
-                //   console.log("data is stale, fetching")
-                //   await getAllTeamsDataTest();
             }
         }
         console.log("Data either stale or nonexistent, attempting to fetch");
@@ -30,7 +24,6 @@ const getDataCacheAPI = async (url, cache, cachedMaxTime = 600000, caller = '') 
         const response = await fetch(url);
         const responseJSON = await response.json();
         
-
         if (caller === 'proteams') { // if calling from Proteams screen
             console.log("now in proteams")
             const proTeamIdsAsNmbr = proteamids.map(Number);
@@ -59,7 +52,50 @@ const getDataCacheAPI = async (url, cache, cachedMaxTime = 600000, caller = '') 
         
 
     } catch (e) {
-        Alert.alert("Error fetching team data, function getDataCacheAPI:", e)
+        Alert.alert("Error fetching team data, function getDataCacheAPI:", e);
     }
 };
-export default getDataCacheAPI;
+
+const getFollowedData = async (cache) => {
+    console.log("ok")
+
+    try {
+    const cachedFollowed = await AsyncStorage.getItem(cache);
+    console.log("cachedFollowed");
+    console.log(cachedFollowed);
+    if (cachedFollowed !== null) {
+        console.log("piip")
+        return JSON.parse(cachedFollowed);
+    }
+    return [];
+} catch (e) {
+    throw Alert.alert("Error fetching followed list.",e )
+}
+};
+const addFollowedData = async (cache, dataToAdd) => {
+    try {
+    const cachedFollowed = await getFollowedData(cache);
+    console.log(cachedFollowed);
+    cachedFollowed.push(dataToAdd);
+    console.log(cachedFollowed);
+    await AsyncStorage.setItem(cache, JSON.stringify(cachedFollowed));
+    return cachedFollowed;
+} catch (e) {
+    Alert.alert("Error adding data");
+}
+};
+const removeFollowedData = async (cache, dataToRemove) => {
+    try {
+        const cachedFollowed = await getFollowedData(cache);
+        console.log("now removing")
+        console.log(cachedFollowed)
+        const dataRemoved = cachedFollowed.filter(followedId => followedId !== dataToRemove);
+        console.log("now removed")
+        console.log(dataRemoved)
+        await AsyncStorage.setItem(cache, JSON.stringify(dataRemoved));
+        return dataRemoved;
+    } catch (e) {
+        Alert.alert("Error removing data");
+    }
+}
+export {getDataCacheAPI, getFollowedData, addFollowedData, removeFollowedData};
