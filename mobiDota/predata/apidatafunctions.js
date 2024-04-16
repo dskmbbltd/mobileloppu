@@ -104,8 +104,9 @@ const getFollowedAPI = async (cache, caller) => {
         console.log(followed)
         const urlMid = followed.join('%2C')
         const url = "https://api.opendota.com/api/explorer?sql=SELECT%0A%20%20%20%20%20%20%20%20teams.name%20%2C%0Ateams.team_id%2C%0Ateam_rating.rating%2C%0Ateam_rating.wins%2C%0Ateam_rating.losses%0AFROM%20teams%0ALEFT%20JOIN%20team_rating%20using(team_id)%0AWHERE%20TRUE%0AAND%20teams.team_id%20in%20("+
-        urlMid+")%0AGROUP%20BY%20teams.name%2C%20teams.team_id%2C%20team_rating.rating%2C%20team_rating.wins%2Cteam_rating.losses%0A%0ALIMIT%20200"
-        const urlEnd = ")%0AGROUP%20BY%20teams.name%2C%20teams.team_id%2C%20team_rating.rating%2C%20team_rating.wins%2Cteam_rating.losses%0A%0ALIMIT%20200"
+        urlMid+
+        ")%0AGROUP%20BY%20teams.name%2C%20teams.team_id%2C%20team_rating.rating%2C%20team_rating.wins%2Cteam_rating.losses%0A%0ALIMIT%20200"
+        // const urlEnd = ")%0AGROUP%20BY%20teams.name%2C%20teams.team_id%2C%20team_rating.rating%2C%20team_rating.wins%2Cteam_rating.losses%0A%0ALIMIT%20200"
         // const url1 = urLStart+urlMid+urlEnd;
         console.log(url)
         const response = await fetch(url);
