@@ -5,8 +5,8 @@ import proteamids from '../predata/proteamids.js';
 import proleagueids from '../predata/proleagueids.js';
 
 const getDataCacheAPI = async (url = '', cache, cachedMaxTime = 600000, caller = '') => {
-    console.log("caller",caller)
-    console.log("cache",cache)
+    console.log("caller", caller)
+    console.log("cache", cache)
     try {
         const cachedData = await AsyncStorage.getItem(cache);
         const cachedDataTime = await AsyncStorage.getItem(`${cache}Time`);
@@ -21,10 +21,10 @@ const getDataCacheAPI = async (url = '', cache, cachedMaxTime = 600000, caller =
             }
         }
         console.log("Data either stale or nonexistent, attempting to fetch");
-        
+
         const response = await fetch(url);
         let responseJSON = await response.json();
-        
+
         if (caller === 'proteams') { // if calling from Proteams screen
             console.log("now in proteams")
             const proTeamIdsAsNmbr = proteamids.map(Number);
@@ -37,21 +37,21 @@ const getDataCacheAPI = async (url = '', cache, cachedMaxTime = 600000, caller =
 
             // return teamsInProTeamList;
         }
-          if (caller === 'leagues') { // if calling from leagues screen
+        if (caller === 'leagues') { // if calling from leagues screen
             console.log("now in leagues")
-            
-           // only set data for league ids found in preset data
+
+            // only set data for league ids found in preset data
             responseJSON = responseJSON.filter(obj => proleagueids.includes(obj.leagueid));
             // await AsyncStorage.setItem(cache, JSON.stringify(leaguesInProLeaguesList));
             // await AsyncStorage.setItem(`${cache}Time`, Date.now().toString());
             // return leaguesInProLeaguesList;
         }
 
-        
+
         await AsyncStorage.setItem(cache, JSON.stringify(responseJSON));
         await AsyncStorage.setItem(`${cache}Time`, Date.now().toString());
         return responseJSON;
-        
+
 
     } catch (e) {
         Alert.alert("Error fetching team data, function getDataCacheAPI:", e);
@@ -60,27 +60,27 @@ const getDataCacheAPI = async (url = '', cache, cachedMaxTime = 600000, caller =
 
 const getFollowedData = async (cache) => {
     try {
-    const cachedFollowed = await AsyncStorage.getItem(cache);
-    console.log(cachedFollowed);
-    if (cachedFollowed !== null) {
-        return JSON.parse(cachedFollowed);
+        const cachedFollowed = await AsyncStorage.getItem(cache);
+        console.log(cachedFollowed);
+        if (cachedFollowed !== null) {
+            return JSON.parse(cachedFollowed);
+        }
+        return [];
+    } catch (e) {
+        Alert.alert("Error fetching followed list.", e)
     }
-    return [];
-} catch (e) {
-    Alert.alert("Error fetching followed list.",e )
-}
 };
 const addFollowedData = async (cache, dataToAdd) => {
     try {
-    const cachedFollowed = await getFollowedData(cache);
-    console.log(cachedFollowed);
-    cachedFollowed.push(dataToAdd);
-    console.log(cachedFollowed);
-    await AsyncStorage.setItem(cache, JSON.stringify(cachedFollowed));
-    return cachedFollowed;
-} catch (e) {
-    Alert.alert("Error adding data");
-}
+        const cachedFollowed = await getFollowedData(cache);
+        console.log(cachedFollowed);
+        cachedFollowed.push(dataToAdd);
+        console.log(cachedFollowed);
+        await AsyncStorage.setItem(cache, JSON.stringify(cachedFollowed));
+        return cachedFollowed;
+    } catch (e) {
+        Alert.alert("Error adding data");
+    }
 };
 const removeFollowedData = async (cache, dataToRemove) => {
     try {
@@ -96,24 +96,28 @@ const removeFollowedData = async (cache, dataToRemove) => {
 }
 
 const getFollowedAPI = async (cache, caller) => {
-    if (caller === 'followedTeams') {
-        console.log("now in followed")
+    try {
+        if (caller === 'followedTeams') {
+            console.log("now in followed")
 
-        //only set data for 
-        const followed = await getFollowedData(cache)
-        console.log(followed)
-        const urlMid = followed.join('%2C')
-        const url = "https://api.opendota.com/api/explorer?sql=SELECT%0A%20%20%20%20%20%20%20%20teams.name%20%2C%0Ateams.team_id%2C%0Ateam_rating.rating%2C%0Ateam_rating.wins%2C%0Ateam_rating.losses%0AFROM%20teams%0ALEFT%20JOIN%20team_rating%20using(team_id)%0AWHERE%20TRUE%0AAND%20teams.team_id%20in%20("+
-        urlMid+
-        ")%0AGROUP%20BY%20teams.name%2C%20teams.team_id%2C%20team_rating.rating%2C%20team_rating.wins%2Cteam_rating.losses%0A%0ALIMIT%20200"
-        // const urlEnd = ")%0AGROUP%20BY%20teams.name%2C%20teams.team_id%2C%20team_rating.rating%2C%20team_rating.wins%2Cteam_rating.losses%0A%0ALIMIT%20200"
-        // const url1 = urLStart+urlMid+urlEnd;
-        console.log(url)
-        const response = await fetch(url);
-        const responseJSON = await response.json();
-        const rows = responseJSON.rows
-        console.log(rows)
-        return rows;
+            //only set data for 
+            const followed = await getFollowedData(cache)
+            console.log(followed)
+            const urlMid = followed.join('%2C')
+            const url = "https://api.opendota.com/api/explorer?sql=SELECT%0A%20%20%20%20%20%20%20%20teams.name%20%2C%0Ateams.team_id%2C%0Ateam_rating.rating%2C%0Ateam_rating.wins%2C%0Ateam_rating.losses%0AFROM%20teams%0ALEFT%20JOIN%20team_rating%20using(team_id)%0AWHERE%20TRUE%0AAND%20teams.team_id%20in%20(" +
+                urlMid +
+                ")%0AGROUP%20BY%20teams.name%2C%20teams.team_id%2C%20team_rating.rating%2C%20team_rating.wins%2Cteam_rating.losses%0A%0ALIMIT%20200"
+            // const urlEnd = ")%0AGROUP%20BY%20teams.name%2C%20teams.team_id%2C%20team_rating.rating%2C%20team_rating.wins%2Cteam_rating.losses%0A%0ALIMIT%20200"
+            // const url1 = urLStart+urlMid+urlEnd;
+            console.log(url)
+            const response = await fetch(url);
+            const responseJSON = await response.json();
+            const rows = responseJSON.rows
+            console.log(rows)
+            return rows;
+        }
+    } catch (e) {
+        Alert.alert("Error getting follows")
     }
 }
-export {getDataCacheAPI, getFollowedAPI, getFollowedData, addFollowedData, removeFollowedData};
+export { getDataCacheAPI, getFollowedAPI, getFollowedData, addFollowedData, removeFollowedData };
