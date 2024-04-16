@@ -8,6 +8,7 @@ import Proplayers from './screens/Proplayers.js';
 import Proteams from './screens/Proteams.js';
 import Proteam from './screens/Proteam.js';
 import Leagues from './screens/Leagues.js';
+import Followed from './screens/Followed.js';
 import * as SQLite from 'expo-sqlite';
 import { useEffect, useState } from 'react';
 import db from './db/db.js'
@@ -27,6 +28,7 @@ export default function App() {
         <Stack.Screen name="Proteams" component={Proteams} />
         <Stack.Screen name="Proteam" component={Proteam} />
         <Stack.Screen name="Leagues" component={Leagues} />
+        <Stack.Screen name="Followed" component={Followed} />
       </Stack.Navigator>
     </NavigationContainer>
     

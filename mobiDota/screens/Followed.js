@@ -8,7 +8,7 @@ import { Card, ListItem, Avatar } from '@rneui/themed';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import db from '../db/db.js'
 import proteamids from '../predata/proteamids.js';
-import getDataCacheAPI from '../predata/apidatafunctions.js'
+import { getDataCacheAPI, getFollowedData, addFollowedData, removeFollowedData } from '../predata/apidatafunctions.js';
 //TODO
 
 //SEARCH BY PLAYERNAME OR TEAM
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   }
 });
 
-export default function Proplayers({ navigation }) {
+export default function Followed({ navigation }) {
 
 
   const urldatdota = "https://www.datdota.com/teams/"
@@ -53,14 +53,14 @@ export default function Proplayers({ navigation }) {
   const proTeamIdsAsNmbr = proteamids.map(Number);
 
   const getData = async () => {
-    const url = "https://api.opendota.com/api/teams"
-    const cachedTeams = 'cachedTeams'
-    const caller = 'proteams'
+    const url = ''
+    const cachedTeams = 'followedTeams'
+    const caller = 'followedTeams'
     try {
-      const fetchedData = await getDataCacheAPI(url, cachedTeams, 0, caller);
+      const fetchedData = await getDataCacheAPI(url, cachedTeams, 3600000, caller);
       console.log("back here")
-      setTeamsData(fetchedData);
-      setIsLoadingTeam(false);
+      setFollowedTeamsData(fetchedData);
+      setIsLoadingData(false);
     } catch (e) {
       Alert.alert("Error fetching data, function: getData", e)
     }
@@ -82,14 +82,14 @@ export default function Proplayers({ navigation }) {
 
   // RETURNED
   const getAPIdata = () => {
-    if (isLoadingTeam) {
+    if (isLoadingData) {
       return <><ActivityIndicator style={styles.loading} size="large" /><Text style={{ textAlign: 'center' }}>Fetching data...</Text></>
     }
     return <FlatList
       initialNumToRender={15}
       maxToRenderPerBatch={15}
       keyExtractor={this.keyExtractor}
-      data={teamsData}
+      data={followedTeamsData}
       renderItem={this.renderItem}
     />
   }

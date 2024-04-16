@@ -4,8 +4,9 @@ import { Alert } from 'react-native';
 import proteamids from '../predata/proteamids.js';
 import proleagueids from '../predata/proleagueids.js';
 
-const getDataCacheAPI = async (url, cache, cachedMaxTime = 600000, caller = '') => {
-
+const getDataCacheAPI = async (url = '', cache, cachedMaxTime = 600000, caller = '') => {
+    console.log("caller",caller)
+    console.log("cache",cache)
     try {
         const cachedData = await AsyncStorage.getItem(cache);
         const cachedDataTime = await AsyncStorage.getItem(`${cache}Time`);
@@ -20,7 +21,24 @@ const getDataCacheAPI = async (url, cache, cachedMaxTime = 600000, caller = '') 
             }
         }
         console.log("Data either stale or nonexistent, attempting to fetch");
+        if (caller === 'followedTeams') {
+            console.log("now in followed")
 
+            //only set data for 
+            const followed = await getFollowedData(cache)
+            console.log(followed)
+            const urLStart = "https://api.opendota.com/api/explorer?sql=SELECT%0A%20%20%20%20%20%20%20%20teams.name%20%2C%0Ateams.team_id%2C%0Ateam_rating.rating%2C%0Ateam_rating.wins%2C%0Ateam_rating.losses%0AFROM%20teams%0ALEFT%20JOIN%20team_rating%20using(team_id)%0AWHERE%20TRUE%0AAND%20teams.team_id%20in%20("
+            const urlEnd = ")%0AGROUP%20BY%20teams.name%2C%20teams.team_id%2C%20team_rating.rating%2C%20team_rating.wins%2Cteam_rating.losses%0A%0ALIMIT%20200"
+            const urlMid = followed.join('%2C')
+            const url1 = urLStart+urlMid+urlEnd;
+            console.log(url1)
+            const response = await fetch(url1);
+            const responseJSON = await response.json();
+            const rows = responseJSON.rows
+            console.log(rows)
+            return rows;
+
+        }
         const response = await fetch(url);
         const responseJSON = await response.json();
         
@@ -46,6 +64,7 @@ const getDataCacheAPI = async (url, cache, cachedMaxTime = 600000, caller = '') 
             return leaguesInProLeaguesList;
         }
 
+        
         await AsyncStorage.setItem(cache, JSON.stringify(responseJSON));
         await AsyncStorage.setItem(`${cache}Time`, Date.now().toString());
         return responseJSON;

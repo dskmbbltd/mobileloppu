@@ -57,7 +57,7 @@ export default function Proplayers({ navigation }) {
     const cachedTeams = 'cachedTeams'
     const caller = 'proteams'
     try {
-      const fetchedData = await getDataCacheAPI(url, cachedTeams, 0, caller);
+      const fetchedData = await getDataCacheAPI(url, cachedTeams, 600000, caller);
       console.log("back here")
       setTeamsData(fetchedData);
       setIsLoadingTeam(false);

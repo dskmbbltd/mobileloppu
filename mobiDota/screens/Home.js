@@ -16,7 +16,11 @@ export default function Home({ navigation }) {
     navigate: 'Proplayers'},
     {
       title: 'Leagues',
-    navigate: 'Leagues'}
+    navigate: 'Leagues'},
+    {
+      title: 'Followed',
+    navigate: 'Followed'},
+  
     ];
 
   return (
