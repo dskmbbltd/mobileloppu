@@ -10,7 +10,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ListItem } from "@rneui/base";
 import { Avatar } from "@rneui/base/dist/Avatar/Avatar";
-import getDataCacheAPI from '../predata/apidatafunctions.js'
+import { getDataCacheAPI, getFollowedAPI, getFollowedData, addFollowedData, removeFollowedData } from '../predata/apidatafunctions.js';
 
 const styles = StyleSheet.create({
   container: {

@@ -8,10 +8,8 @@ import { Card, ListItem, Avatar } from '@rneui/themed';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import db from '../db/db.js'
 import proteamids from '../predata/proteamids.js';
-import { getDataCacheAPI, getFollowedData, addFollowedData, removeFollowedData } from '../predata/apidatafunctions.js';
-//TODO
+import { getDataCacheAPI, getFollowedAPI, getFollowedData, addFollowedData, removeFollowedData } from '../predata/apidatafunctions.js';
 
-//SEARCH BY PLAYERNAME OR TEAM
 //esim data
 // {
 //   "team_id": 9247354,
@@ -57,7 +55,7 @@ export default function Followed({ navigation }) {
     const cachedTeams = 'followedTeams'
     const caller = 'followedTeams'
     try {
-      const fetchedData = await getDataCacheAPI(url, cachedTeams, 3600000, caller);
+      const fetchedData = await getFollowedAPI(cachedTeams, caller);
       console.log("back here")
       setFollowedTeamsData(fetchedData);
       setIsLoadingData(false);
