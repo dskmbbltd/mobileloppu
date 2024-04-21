@@ -15,9 +15,9 @@ export default function Proplayers() {
     <View><FlatList
       initialNumToRender={15}
       maxToRenderPerBatch={15}
-      keyExtractor={this.keyExtractor}
+      keyExtractor={keyExtractor}
       data={teamsData}
-      renderItem={this.renderItem}
+      renderItem={renderItem}
     /></View>
   );
 }

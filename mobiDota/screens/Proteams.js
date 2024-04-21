@@ -88,9 +88,9 @@ export default function Proplayers({ navigation }) {
     return <FlatList
       initialNumToRender={15}
       maxToRenderPerBatch={15}
-      keyExtractor={this.keyExtractor}
+      keyExtractor={keyExtractor}
       data={teamsData}
-      renderItem={this.renderItem}
+      renderItem={renderItem}
     />
   }
 

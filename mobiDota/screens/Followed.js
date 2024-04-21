@@ -86,9 +86,9 @@ export default function Followed({ navigation }) {
     return <FlatList
       initialNumToRender={15}
       maxToRenderPerBatch={15}
-      keyExtractor={this.keyExtractor}
+      keyExtractor={keyExtractor}
       data={followedTeamsData}
-      renderItem={this.renderItem}
+      renderItem={renderItem}
     />
   }
 

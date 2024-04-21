@@ -11,17 +11,19 @@ export default function Home({ navigation }) {
   const navigateButtons = [{
     title: 'Pro teams',
     navigate: 'Proteams'},
-    {
-      title: 'Pro players',
-    navigate: 'Proplayers'},
+    // {
+    //   title: 'Pro players',
+    // navigate: 'Proplayers'},
     {
       title: 'Leagues',
     navigate: 'Leagues'},
     {
       title: 'Followed',
     navigate: 'Followed'},
-  
-    ];
+  {
+    title: 'Search',
+    navigate: 'Search'},
+  ];
 
   return (
     <View style={styles.container}>

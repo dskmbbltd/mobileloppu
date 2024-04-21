@@ -9,9 +9,10 @@ import Proteams from './screens/Proteams.js';
 import Proteam from './screens/Proteam.js';
 import Leagues from './screens/Leagues.js';
 import Followed from './screens/Followed.js';
-import * as SQLite from 'expo-sqlite';
+import Search from './screens/Search.js'
+// import * as SQLite from 'expo-sqlite';
 import { useEffect, useState } from 'react';
-import db from './db/db.js'
+// import db from './db/db.js'
 import { ThemeProvider, createTheme } from '@rneui/themed';
 
 const Stack = createNativeStackNavigator();
@@ -29,6 +30,7 @@ export default function App() {
         <Stack.Screen name="Proteam" component={Proteam} />
         <Stack.Screen name="Leagues" component={Leagues} />
         <Stack.Screen name="Followed" component={Followed} />
+        <Stack.Screen name="Search" component={Search} />
       </Stack.Navigator>
     </NavigationContainer>
     

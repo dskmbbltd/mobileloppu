@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
 
   }
 });
-
+// leagues should have dropdowns for participating teams with links to Proteam screen
 export default function Leagues({ navigation }) {
   const [isLoadingLeagues, setIsLoadingLeagues] = useState(true);
   const [leaguesData, setLeaguesData] = useState([]);
@@ -68,9 +68,9 @@ export default function Leagues({ navigation }) {
     return <FlatList
       initialNumToRender={15}
       maxToRenderPerBatch={15}
-      keyExtractor={this.keyExtractor}
+      keyExtractor={keyExtractor}
       data={leaguesData}
-      renderItem={this.renderItem}
+      renderItem={renderItem}
     />
   }
 

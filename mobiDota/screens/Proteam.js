@@ -23,6 +23,8 @@ const styles = StyleSheet.create({
 
     }
 });
+//links to dotabuff etc for team
+//dropdowns for team members with info. what to include?
 export default function Proteam({ navigation, route }) {
 
     const team = route.params.item;
