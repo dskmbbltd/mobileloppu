@@ -10,15 +10,12 @@ import Proteam from './screens/Proteam.js';
 import Leagues from './screens/Leagues.js';
 import Followed from './screens/Followed.js';
 import Search from './screens/Search.js'
-// import * as SQLite from 'expo-sqlite';
 import { useEffect, useState } from 'react';
-// import db from './db/db.js'
 import { ThemeProvider, createTheme } from '@rneui/themed';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-
 
   return (
     
@@ -37,11 +34,3 @@ export default function App() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

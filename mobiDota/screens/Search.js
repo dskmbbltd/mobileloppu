@@ -102,7 +102,7 @@ export default function Search({ navigation }) {
   )}
 };
 
-  // RETURNED
+  // remove?
   const getAPIdata = () => {
     if (isLoadingData) {
       return <><ActivityIndicator style={styles.loading} size="large" /><Text style={{ textAlign: 'center' }}>Fetching data...</Text></>
