@@ -24,7 +24,10 @@ const getDataCacheAPI = async (url = '', cache, cachedMaxTime = 600000, caller =
 
         const response = await fetch(url);
         let responseJSON = await response.json();
-
+        
+        if (caller === 'proteam') {
+            responseJSON = responseJSON.rows
+        }
         if (caller === 'proteams') { // if calling from Proteams screen
             console.log("now in proteams")
             const proTeamIdsAsNmbr = proteamids.map(Number);

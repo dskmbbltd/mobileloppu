@@ -57,7 +57,7 @@ export default function Search({ navigation }) {
       naviLink = 'Player';
       break;
     case 1:
-      naviLink = 'Team';
+      naviLink = 'Proteam';
       break;
     case 2:
       naviLink = 'League';
