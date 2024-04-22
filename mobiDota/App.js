@@ -10,6 +10,7 @@ import Proteam from './screens/Proteam.js';
 import Leagues from './screens/Leagues.js';
 import Followed from './screens/Followed.js';
 import Search from './screens/Search.js'
+import Charts from './screens/Charts.js'
 import { useEffect, useState } from 'react';
 import { ThemeProvider, createTheme } from '@rneui/themed';
 
@@ -28,6 +29,7 @@ export default function App() {
         <Stack.Screen name="Leagues" component={Leagues} />
         <Stack.Screen name="Followed" component={Followed} />
         <Stack.Screen name="Search" component={Search} />
+        <Stack.Screen name="Charts" component={Charts} />
       </Stack.Navigator>
     </NavigationContainer>
     

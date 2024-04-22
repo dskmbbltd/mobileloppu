@@ -3,7 +3,6 @@ import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import db from '../db/db.js'
 import { Button } from '@rneui/themed'
 
 export default function Home({ navigation }) {
@@ -23,6 +22,9 @@ export default function Home({ navigation }) {
   {
     title: 'Search',
     navigate: 'Search'},
+  {
+    title: 'Charts',
+    navigate: 'Charts'},
   ];
 
   return (

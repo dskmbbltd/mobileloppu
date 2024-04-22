@@ -6,7 +6,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ButtonGroup, Button, Card, ListItem, Avatar, SearchBar } from '@rneui/themed';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import db from '../db/db.js'
 import proteamids from '../predata/proteamids.js';
 import { getSearchData, getDataCacheAPI, getFollowedAPI, getFollowedData, addFollowedData, removeFollowedData } from '../predata/apidatafunctions.js';
 import { ListItemTitle } from '@rneui/base/dist/ListItem/ListItem.Title.js';

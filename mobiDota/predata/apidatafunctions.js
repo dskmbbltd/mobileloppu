@@ -24,7 +24,7 @@ const getDataCacheAPI = async (url = '', cache, cachedMaxTime = 600000, caller =
 
         const response = await fetch(url);
         let responseJSON = await response.json();
-        
+
         if (caller === 'proteam') {
             responseJSON = responseJSON.rows
         }
@@ -125,13 +125,13 @@ const getFollowedAPI = async (cache, caller) => {
 }
 
 const getSearchData = async (searchmode, search) => {
-    let url='';
+    let url = '';
     switch (searchmode) {
         case 0:
-            url = 'https://api.opendota.com/api/search?q='+search;
+            url = 'https://api.opendota.com/api/search?q=' + search;
             break;
         case 1:
-            url = 'https://api.opendota.com/api/explorer?sql=SELECT%20t.*%2C%20tr.rating%0D%0AFROM%20teams%20t%0D%0AJOIN%20team_rating%20tr%20ON%20t.team_id%20%3D%20tr.team_id%0D%0AWHERE%20t.name%20ILIKE%20%27%25'+search+'%25%27%0D%0AORDER%20BY%20tr.rating%20DESC%3B';
+            url = 'https://api.opendota.com/api/explorer?sql=SELECT%20t.*%2C%20tr.rating%0D%0AFROM%20teams%20t%0D%0AJOIN%20team_rating%20tr%20ON%20t.team_id%20%3D%20tr.team_id%0D%0AWHERE%20t.name%20ILIKE%20%27%25' + search + '%25%27%0D%0AORDER%20BY%20tr.rating%20DESC%3B';
             break;
         case 2:
             url = '';
@@ -151,4 +151,30 @@ const getSearchData = async (searchmode, search) => {
 
     }
 }
-export { getDataCacheAPI, getFollowedAPI, getFollowedData, getSearchData, addFollowedData, removeFollowedData };
+
+const getChartData = async (data) => {
+    let url = '';
+    switch (data) {
+        case 'mmrhistogram':
+            url = "https://api.opendota.com/api/distributions"
+            break;
+
+        case value:
+
+            break;
+
+        default:
+            break;
+    }
+    try {
+        const response = await fetch(url);
+        const responseJSON = await response.json()
+        if (data === 'mmrhistogram') {
+            return responseJSON.ranks.rows;
+        }
+        return responseJSON;
+    } catch (e) {
+        Alert.alert("Error while searching")
+    }
+}
+export {getChartData, getDataCacheAPI, getFollowedAPI, getFollowedData, getSearchData, addFollowedData, removeFollowedData };

@@ -5,7 +5,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useEffect, useRef, useState } from 'react';
 import { Card, ListItem, Avatar } from '@rneui/themed';
-import db from '../db/db.js'
 import proteamids from '../predata/proteamids.js';
 
 export default function Proplayers() {
