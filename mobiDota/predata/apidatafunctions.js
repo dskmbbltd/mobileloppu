@@ -100,25 +100,24 @@ const removeFollowedData = async (cache, dataToRemove) => {
 
 const getFollowedAPI = async (cache, caller) => {
     try {
-        if (caller === 'followedTeams') {
-            console.log("now in followed")
-
+        let url = ''
             //only set data for 
             const followed = await getFollowedData(cache)
-            console.log(followed)
             const urlMid = followed.join('%2C')
-            const url = "https://api.opendota.com/api/explorer?sql=SELECT%0A%20%20%20%20%20%20%20%20teams.name%20%2C%0Ateams.team_id%2C%0Ateam_rating.rating%2C%0Ateam_rating.wins%2C%0Ateam_rating.losses%0AFROM%20teams%0ALEFT%20JOIN%20team_rating%20using(team_id)%0AWHERE%20TRUE%0AAND%20teams.team_id%20in%20(" +
+            if (caller === 'followedTeams') {
+            url = "https://api.opendota.com/api/explorer?sql=SELECT%0A%20%20%20%20%20%20%20%20teams.name%20%2C%0Ateams.team_id%2C%0Ateam_rating.rating%2C%0Ateam_rating.wins%2C%0Ateam_rating.losses%0AFROM%20teams%0ALEFT%20JOIN%20team_rating%20using(team_id)%0AWHERE%20TRUE%0AAND%20teams.team_id%20in%20(" +
                 urlMid +
                 ")%0AGROUP%20BY%20teams.name%2C%20teams.team_id%2C%20team_rating.rating%2C%20team_rating.wins%2Cteam_rating.losses%0A%0ALIMIT%20200"
-            // const urlEnd = ")%0AGROUP%20BY%20teams.name%2C%20teams.team_id%2C%20team_rating.rating%2C%20team_rating.wins%2Cteam_rating.losses%0A%0ALIMIT%20200"
-            // const url1 = urLStart+urlMid+urlEnd;
-            console.log(url)
+            }
+            if (caller === 'followedPlayers') {
+            url = "https://api.opendota.com/api/explorer?sql=SELECT%0A%20%20%20%20%20%20%20%20notable_players.name%20%2C%0Aavg(kills)%20%22AVG%20Kills%22%2C%0Acount(distinct%20matches.match_id)%20count%2C%0Asum(case%20when%20(player_matches.player_slot%20%3C%20128)%20%3D%20radiant_win%20then%201%20else%200%20end)%3A%3Afloat%2Fcount(1)%20winrate%2C%0A%20%20%20%20%20%20%20%20players.avatarmedium%2C%0A%20%20%20%20%20%20%20%20players.avatarfull%0AFROM%20matches%0AJOIN%20match_patch%20using(match_id)%0AJOIN%20leagues%20using(leagueid)%0AJOIN%20player_matches%20using(match_id)%0AJOIN%20players%20using(account_id)%0ALEFT%20JOIN%20notable_players%20ON%20notable_players.account_id%20%3D%20player_matches.account_id%0ALEFT%20JOIN%20teams%20using(team_id)%0AWHERE%20TRUE%0AAND%20kills%20IS%20NOT%20NULL%20%0AAND%20player_matches.account_id%20IN%20("
+            +urlMid+
+            ")%0AGROUP%20BY%20teams.name%2C%20teams.team_id%2C%20team_rating.rating%2C%20team_rating.wins%2Cteam_rating.losses%0A%0ALIMIT%20200"
+        }
             const response = await fetch(url);
             const responseJSON = await response.json();
             const rows = responseJSON.rows
-            console.log(rows)
             return rows;
-        }
     } catch (e) {
         Alert.alert("Error getting follows")
     }
@@ -159,8 +158,8 @@ const getChartData = async (data) => {
             url = "https://api.opendota.com/api/distributions"
             break;
 
-        case value:
-
+        case 'mmrteams':
+            url = "https://api.opendota.com/api/explorer?sql=SELECT%0D%0A%20%20bucket_range%2C%0D%0A%20%20COUNT(*)%20AS%20team_count%0D%0AFROM%20(%0D%0A%20%20SELECT%0D%0A%20%20%20%20floor(rating%20%2F%20200)%20*%20200%20AS%20bucket_range%0D%0A%20%20FROM%20team_rating%0D%0A)%20AS%20subq%0D%0AGROUP%20BY%20bucket_range%0D%0AORDER%20BY%20bucket_range%3B"
             break;
 
         default:
@@ -172,7 +171,7 @@ const getChartData = async (data) => {
         if (data === 'mmrhistogram') {
             return responseJSON.ranks.rows;
         }
-        return responseJSON;
+        return responseJSON.rows;
     } catch (e) {
         Alert.alert("Error while searching")
     }

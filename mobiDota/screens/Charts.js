@@ -10,6 +10,7 @@ import proteamids from '../predata/proteamids.js';
 import { getChartData, getSearchData, getDataCacheAPI, getFollowedAPI, getFollowedData, addFollowedData, removeFollowedData } from '../predata/apidatafunctions.js';
 import { ListItemTitle } from '@rneui/base/dist/ListItem/ListItem.Title.js';
 import { BarChart, LineChart, PieChart, PopulationPyramid } from "react-native-gifted-charts";
+import { Divider } from '@rneui/base';
 
 const styles = StyleSheet.create({
   container: {
@@ -36,8 +37,11 @@ export default function Charts({ navigation }) {
 
   const getData = async () => {
     try {
-      const fetchedData = await getChartData('mmrhistogram');
-      const toData = fetchedData.map(({count,bin}) => ({ value: count, label: bin }));
+      const fetchedData = await getChartData('mmrteams');
+      //mmrhistogram
+      // const toData = fetchedData.map(({count,bin}) => ({ value: count, label: bin }));
+      //mmrteams
+      const toData = fetchedData.map(({bucket_range,team_count}) => ({ value: team_count, label: bucket_range }));
 
       setMmrHistogram(toData);
       console.log(toData);
@@ -54,21 +58,34 @@ export default function Charts({ navigation }) {
       return <><ActivityIndicator style={styles.loading} size="large" /><Text style={{ textAlign: 'center' }}>Fetching data...</Text></>
     }
     return (
+      <View style={{borderRadius:10, backgroundColor:'#232B5D', paddingHorizontal:35, paddingTop:15, paddingBottom:35, marginTop:15, width:'95%'}}> 
+      <Text style={{textAlign:'left',color:'white', fontSize:18,fontWeight:'300', paddingBottom:5}}>Team rating distribution</Text>
       <BarChart
-      horizontal
-      xAxisLabelsVerticalShift={1}
+      dashGap={0}
+      frontColor={'#00FFFF'}
+      xAxisColor={'grey'}
+      yAxisColor={'grey'}
+      hideRules={true}
+      showGradient
+      rotateLabel
       roundedTop
       isAnimated
-      // rotateLabel
-      barWidth={10}
-      spacing={6}
-      noOfSections={3}
+      showValuesAsTopLabel
+      topLabelTextStyle={{fontSize:10, color:'#00FFFF', fontWeight:'bold'}}
+      yAxisTextStyle={{fontSize:10, color:'#00FFFF'}}
+      xAxisLabelTextStyle={{fontSize:10, color:'#00FFFF'}}
+      labelWidth={30}
+      height={200}
+      barWidth={30}
+      spacing={15}
+      noOfSections={4}
       data={mmrHistogram} />
+      </View>
     )
   }
 
     return (
-      <View style={{flex: 1,backgroundColor: 'white'}} >
+      <View style={{flex: 1,alignItems:'center',backgroundColor: '#000040'}} >
         
         {getAPIdata()}
         

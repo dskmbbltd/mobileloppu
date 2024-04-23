@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Card, ListItem, Avatar } from '@rneui/themed';
+import { Card, ListItem, Avatar, ButtonGroup } from '@rneui/themed';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import proteamids from '../predata/proteamids.js';
 import { getDataCacheAPI, getFollowedAPI, getFollowedData, addFollowedData, removeFollowedData } from '../predata/apidatafunctions.js';
@@ -44,25 +44,36 @@ export default function Followed({ navigation }) {
   const urldotabuff = "https://www.dotabuff.com/esports/teams/"
   const urlstratz = "https://stratz.com/teams/"
   const [followedPlayersData, setFollowedPlayersData] = useState([]);
-  const [followedTeamsData, setFollowedTeamsData] = useState([]);
+  const [followedData, setFollowedData] = useState([]);
   const [isLoadingData, setIsLoadingData] = useState(true);
   const [isLoadingPlayers, setIsLoadingPlayers] = useState(true);
   const proTeamIdsAsNmbr = proteamids.map(Number);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedIndexes, setSelectedIndexes] = useState([0, 1]);
 
   const getData = async () => {
-    const url = ''
-    const cachedTeams = 'followedTeams'
-    const caller = 'followedTeams'
+    let cachedTeams = ''
+    let caller = ''
+    switch (selectedIndex) {
+      case 0:
+        cachedTeams = 'followedTeams'
+        caller = 'followedTeams'
+        break;
+        case 1:
+        cachedTeams = 'followedPlayers'
+        caller = 'followedPlayers'
+        break;
+    }
     try {
       const fetchedData = await getFollowedAPI(cachedTeams, caller);
       console.log("back here")
-      setFollowedTeamsData(fetchedData);
+      setFollowedData(fetchedData);
       setIsLoadingData(false);
     } catch (e) {
       Alert.alert("Error fetching data, function: getData", e)
     }
   }
-  useEffect(() => { getData() }, []);
+  useEffect(() => { getData() }, [selectedIndex]);
 
   keyExtractor = (item, index) => index.toString();
   renderItem = ({ item }) => (
@@ -73,7 +84,6 @@ export default function Followed({ navigation }) {
         <ListItem.Subtitle>{item.rating}</ListItem.Subtitle>
       </ListItem.Content>
       <ListItem.Chevron onPress={() => navigation.navigate('Proteam', { item: item })} />
-      {/* <ListItem.Chevron onPress={() => navigation.navigate('Proteam', {item:item, playersData:playersData})}/> */}
     </ListItem>
   );
 
@@ -82,16 +92,29 @@ export default function Followed({ navigation }) {
     if (isLoadingData) {
       return <><ActivityIndicator style={styles.loading} size="large" /><Text style={{ textAlign: 'center' }}>Fetching data...</Text></>
     }
+    if (!followedData) {
+      return <Text style={{textAlign:'center'}}>Followed list is empty</Text>
+    }
     return <FlatList
       initialNumToRender={15}
       maxToRenderPerBatch={15}
       keyExtractor={keyExtractor}
-      data={followedTeamsData}
+      data={followedData}
       renderItem={renderItem}
     />
   }
 
   return (
-    <View >{getAPIdata()}</View>
+    <View >
+       <ButtonGroup
+        buttons={['TEAMS', 'PLAYERS']}
+        selectedIndex={selectedIndex}
+        onPress={(value) => {
+          setSelectedIndex(value);
+        }}
+        containerStyle={{ marginBottom: 20 }}
+      />
+      {getAPIdata()}
+      </View>
   );
 }
