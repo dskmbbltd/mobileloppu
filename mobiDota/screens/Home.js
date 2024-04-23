@@ -1,59 +1,62 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Button } from '@rneui/themed'
+import { Button, Card, Text, useTheme, withTheme } from '@rneui/base'
+import styles from '../styles/styles.js'
+import { Divider } from '@rneui/base';
 
 export default function Home({ navigation }) {
-
+  
   const navigateButtons = [{
     title: 'Pro teams',
-    navigate: 'Proteams'},
-    // {
-    //   title: 'Pro players',
-    // navigate: 'Proplayers'},
-    {
-      title: 'Leagues',
-    navigate: 'Leagues'},
-    {
-      title: 'Followed',
-    navigate: 'Followed'},
+    navigate: 'Proteams'
+  },
+  // {
+  //   title: 'Pro players',
+  // navigate: 'Proplayers'},
+  {
+    title: 'Leagues',
+    navigate: 'Leagues'
+  },
+  {
+    title: 'Followed',
+    navigate: 'Followed'
+  },
   {
     title: 'Search',
-    navigate: 'Search'},
+    navigate: 'Search'
+  },
   {
     title: 'Charts',
-    navigate: 'Charts'},
+    navigate: 'Charts'
+  },
   ];
 
   return (
-    <View style={styles.container}>
-      <Text>Application for viewing pro dota information.</Text>
-      <Text>Relying on opendota API.</Text>
-      {navigateButtons.map((screen, key) => {
-        return (
-          <Button key={key} buttonStyle={{ backgroundColor: 'rgba(39, 39, 39, 1)' }}
-              containerStyle={{
-                width: 200,
-                marginHorizontal: 50,
-                marginVertical: 10,
-              }}
-        title={screen.title}
-        onPress={() => navigation.navigate(screen.navigate)}
-      />
-        )
-      })}
-      </View>
+    <View >
+      <Card containerStyle={styles.card1}>
+        <Text style={styles.text} h2>Welcome</Text>
+        <Text style={styles.text} >Application for viewing pro dota information.</Text>
+        <Text style={styles.text} >Relying on opendota API.</Text>
+      </Card>
+      <Card containerStyle={styles.card1}>
+        {navigateButtons.map((screen, key) => {
+          return (
+            <>
+            <Button key={key}
+              containerStyle={styles.button}
+              color={'#00001D'}
+              title={screen.title}
+              onPress={() => navigation.navigate(screen.navigate)}
+            />
+            <Divider color={'darkred'}
+            inset={true} insetType="middle"/>
+            </>
+          )
+        })}
+      </Card>
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-});

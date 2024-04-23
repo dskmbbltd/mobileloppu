@@ -11,22 +11,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ListItem } from "@rneui/base";
 import { Avatar } from "@rneui/base/dist/Avatar/Avatar";
 import { getDataCacheAPI, getFollowedAPI, getFollowedData, addFollowedData, removeFollowedData } from '../predata/apidatafunctions.js';
+import styles from "../styles/styles.js";
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  }, horizontal: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    padding: 10,
-  }, loading: {
-    paddingTop: '100%',
-
-  }
-});
 // leagues should have dropdowns for participating teams with links to Proteam screen
 export default function Leagues({ navigation }) {
   const [isLoadingLeagues, setIsLoadingLeagues] = useState(true);
@@ -51,14 +37,13 @@ export default function Leagues({ navigation }) {
 
   keyExtractor = (item, index) => index.toString();
   renderItem = ({ item }) => (
-    <ListItem bottomDivider>
-      <Avatar source={{ uri: item.logo_url }} />
+    <ListItem containerStyle={styles.list}
+    bottomDivider>
       <ListItem.Content>
-        <ListItem.Title>{item.name}</ListItem.Title>
-        <ListItem.Subtitle>League tier: {item.tier}</ListItem.Subtitle>
+        <ListItem.Title style={{color: 'white'}}>{item.name}</ListItem.Title>
+        <ListItem.Subtitle style={{color: 'white'}}>League tier: {item.tier}</ListItem.Subtitle>
       </ListItem.Content>
       <ListItem.Chevron onPress={() => navigation.navigate('Proteam', { item: item })} />
-      {/* <ListItem.Chevron onPress={() => navigation.navigate('Proteam', {item:item, playersData:playersData})}/> */}
     </ListItem>
   );
   const getAPIdata = () => {

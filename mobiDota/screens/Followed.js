@@ -8,7 +8,7 @@ import { Card, ListItem, Avatar, ButtonGroup } from '@rneui/themed';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import proteamids from '../predata/proteamids.js';
 import { getDataCacheAPI, getFollowedAPI, getFollowedData, addFollowedData, removeFollowedData } from '../predata/apidatafunctions.js';
-
+import styles from '../styles/styles.js';
 //esim data
 // {
 //   "team_id": 9247354,
@@ -21,21 +21,7 @@ import { getDataCacheAPI, getFollowedAPI, getFollowedData, addFollowedData, remo
 //   "logo_url": "https://steamusercontent-a.akamaihd.net/ugc/2314350571781870059/2B5C9FE9BA0A2DC303A13261444532AA08352843/"
 // }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  }, horizontal: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    padding: 10,
-  }, loading: {
-    paddingTop: '100%',
 
-  }
-});
 
 export default function Followed({ navigation }) {
 
@@ -107,12 +93,13 @@ export default function Followed({ navigation }) {
   return (
     <View >
        <ButtonGroup
+        selectedButtonStyle={{backgroundColor: '#00001F'}}
         buttons={['TEAMS', 'PLAYERS']}
         selectedIndex={selectedIndex}
         onPress={(value) => {
           setSelectedIndex(value);
         }}
-        containerStyle={{ marginBottom: 20 }}
+        containerStyle={ styles.button }
       />
       {getAPIdata()}
       </View>

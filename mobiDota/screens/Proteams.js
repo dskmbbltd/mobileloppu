@@ -7,6 +7,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Card, ListItem, Avatar } from '@rneui/themed';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import proteamids from '../predata/proteamids.js';
+import styles from '../styles/styles.js';
 import {getDataCacheAPI} from '../predata/apidatafunctions.js'
 //TODO
 
@@ -23,21 +24,6 @@ import {getDataCacheAPI} from '../predata/apidatafunctions.js'
 //   "logo_url": "https://steamusercontent-a.akamaihd.net/ugc/2314350571781870059/2B5C9FE9BA0A2DC303A13261444532AA08352843/"
 // }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  }, horizontal: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    padding: 10,
-  }, loading: {
-    paddingTop: '100%',
-
-  }
-});
 
 export default function Proplayers({ navigation }) {
 
@@ -68,14 +54,14 @@ export default function Proplayers({ navigation }) {
 
   keyExtractor = (item, index) => index.toString();
   renderItem = ({ item }) => (
-    <ListItem bottomDivider>
+    <ListItem bottomDivider
+    containerStyle={styles.list}>
       <Avatar source={{ uri: item.logo_url }} />
-      <ListItem.Content>
-        <ListItem.Title>{item.name}</ListItem.Title>
-        <ListItem.Subtitle>{item.rating}</ListItem.Subtitle>
+      <ListItem.Content >
+        <ListItem.Title style={{color: 'white'}}>{item.name}</ListItem.Title>
+        <ListItem.Subtitle style={{color: 'white'}}>{"Rating: "+item.rating}</ListItem.Subtitle>
       </ListItem.Content>
       <ListItem.Chevron onPress={() => navigation.navigate('Proteam', { item: item })} />
-      {/* <ListItem.Chevron onPress={() => navigation.navigate('Proteam', {item:item, playersData:playersData})}/> */}
     </ListItem>
   );
 

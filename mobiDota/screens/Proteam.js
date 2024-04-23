@@ -7,24 +7,8 @@ import { Button, Card, ListItem, Avatar } from '@rneui/themed';
 import { useEffect, useState } from 'react';
 import { getDataCacheAPI, getFollowedData, addFollowedData, removeFollowedData } from '../predata/apidatafunctions.js';
 import { LinearGradient } from 'expo-linear-gradient';
+import styles from '../styles/styles.js';
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    }, horizontal: {
-        flex: 1,
-        flexDirection: 'row',
-        alignItems: 'left',
-        // justifyContent: 'space-around',
-        paddingLeft: 10,
-    }, loading: {
-        paddingTop: '100%',
-
-    }
-});
 //links to dotabuff etc for team
 
 export default function Proteam({ navigation, route }) {
@@ -77,11 +61,11 @@ export default function Proteam({ navigation, route }) {
     const getAPIdata = () => {
         if (isLoadingTeamPlayers) {
             return <><ActivityIndicator style={styles.loading} size="large" /><Text style={{ textAlign: 'center' }}>Fetching data...</Text></>
-        } if (teamPlayers.length === 0) {
-            return <Text>No player data for this team available.</Text>
+        } if (teamPlayers.length === 0) { // no team member data
+            return <Text style={{marginTop: 15, color: 'white', textAlign:'center'}} >No player data for this team available.</Text>
         } else return (teamPlayers.map((player, key) => {
              return (
-                <ListItem.Accordion key={key} bottomDivider
+                <ListItem.Accordion key={key} 
                     content={
                         <ListItem.Content >
                             <Avatar source={{ uri: player.avatarfull }} />
@@ -156,10 +140,10 @@ export default function Proteam({ navigation, route }) {
     }
 
     return (
-        <Card>
-            <Card.Title>{team.name}</Card.Title>
-            <Text style={{ textAlign: 'center' }}>{'Rating: ' + team.rating}
-            </Text>
+        <Card containerStyle={styles.card1}>
+            <Card.Title style={{color: 'white'}}>{team.name}</Card.Title>
+            <Avatar size={50} containerStyle={{backgroundColor: '#000', alignSelf: 'center'}} source={{ uri: team.logo_url }} />
+            <Text style={{color: 'white', textAlign: 'center' }}>{'Rating: ' + team.rating}</Text>
             {followedButton()}
             {getAPIdata()}
         </Card>
