@@ -58,7 +58,7 @@ export default function Charts({ navigation }) {
       return <><ActivityIndicator style={styles.loading} size="large" /><Text style={{ textAlign: 'center' }}>Fetching data...</Text></>
     }
     return (
-      <View style={{borderRadius:10, backgroundColor:'#232B5D', paddingHorizontal:35, paddingTop:15, paddingBottom:35, marginTop:15, width:'95%'}}> 
+      <View style={{borderRadius:10, backgroundColor:'#00002D', paddingHorizontal:35, paddingTop:15, paddingBottom:35, marginTop:15, width:'95%'}}> 
       <Text style={{textAlign:'left',color:'white', fontSize:18,fontWeight:'300', paddingBottom:5}}>Team rating distribution</Text>
       <BarChart
       dashGap={0}
@@ -85,7 +85,7 @@ export default function Charts({ navigation }) {
   }
 
     return (
-      <View style={{flex: 1,alignItems:'center',backgroundColor: '#000040'}} >
+      <View style={{flex: 1,alignItems:'center',backgroundColor: '#00001D'}} >
         
         {getAPIdata()}
         

@@ -64,7 +64,7 @@ const getDataCacheAPI = async (url = '', cache, cachedMaxTime = 600000, caller =
 const getFollowedData = async (cache) => {
     try {
         const cachedFollowed = await AsyncStorage.getItem(cache);
-        console.log(cachedFollowed);
+
         if (cachedFollowed !== null) {
             return JSON.parse(cachedFollowed);
         }
@@ -76,9 +76,9 @@ const getFollowedData = async (cache) => {
 const addFollowedData = async (cache, dataToAdd) => {
     try {
         const cachedFollowed = await getFollowedData(cache);
-        console.log(cachedFollowed);
+
         cachedFollowed.push(dataToAdd);
-        console.log(cachedFollowed);
+
         await AsyncStorage.setItem(cache, JSON.stringify(cachedFollowed));
         return cachedFollowed;
     } catch (e) {
@@ -87,11 +87,12 @@ const addFollowedData = async (cache, dataToAdd) => {
 };
 const removeFollowedData = async (cache, dataToRemove) => {
     try {
+        // await AsyncStorage.removeItem(cache);
         const cachedFollowed = await getFollowedData(cache);
-        console.log(cachedFollowed);
+        console.log("current:"+cachedFollowed)
         const dataRemoved = cachedFollowed.filter(followedId => followedId !== dataToRemove);
-        console.log(dataRemoved);
         await AsyncStorage.setItem(cache, JSON.stringify(dataRemoved));
+        console.log("after remove:"+dataRemoved)
         return dataRemoved;
     } catch (e) {
         Alert.alert("Error removing data");
@@ -103,20 +104,26 @@ const getFollowedAPI = async (cache, caller) => {
         let url = ''
             //only set data for 
             const followed = await getFollowedData(cache)
+            console.log(followed)
             const urlMid = followed.join('%2C')
             if (caller === 'followedTeams') {
-            url = "https://api.opendota.com/api/explorer?sql=SELECT%0A%20%20%20%20%20%20%20%20teams.name%20%2C%0Ateams.team_id%2C%0Ateam_rating.rating%2C%0Ateam_rating.wins%2C%0Ateam_rating.losses%0AFROM%20teams%0ALEFT%20JOIN%20team_rating%20using(team_id)%0AWHERE%20TRUE%0AAND%20teams.team_id%20in%20(" +
+            url = "https://api.opendota.com/api/explorer?sql=SELECT%0A%20%20%20%20%20%20%20%20teams.name%20%2C%0Ateams.team_id%2C%0Ateams.logo_url%2C%0Ateam_rating.rating%2C%0Ateam_rating.wins%2C%0Ateam_rating.losses%0AFROM%20teams%0ALEFT%20JOIN%20team_rating%20using(team_id)%0AWHERE%20TRUE%0AAND%20teams.team_id%20in%20(" +
                 urlMid +
-                ")%0AGROUP%20BY%20teams.name%2C%20teams.team_id%2C%20team_rating.rating%2C%20team_rating.wins%2Cteam_rating.losses%0A%0ALIMIT%20200"
+                ")%0AGROUP%20BY%20teams.name%2C%20teams.team_id%2C%20teams.logo_url%2C%20team_rating.rating%2C%20team_rating.wins%2Cteam_rating.losses%0A%0ALIMIT%20200"
+                console.log(url)
             }
             if (caller === 'followedPlayers') {
-            url = "https://api.opendota.com/api/explorer?sql=SELECT%0A%20%20%20%20%20%20%20%20notable_players.name%20%2C%0Aavg(kills)%20%22AVG%20Kills%22%2C%0Acount(distinct%20matches.match_id)%20count%2C%0Asum(case%20when%20(player_matches.player_slot%20%3C%20128)%20%3D%20radiant_win%20then%201%20else%200%20end)%3A%3Afloat%2Fcount(1)%20winrate%2C%0A%20%20%20%20%20%20%20%20players.avatarmedium%2C%0A%20%20%20%20%20%20%20%20players.avatarfull%0AFROM%20matches%0AJOIN%20match_patch%20using(match_id)%0AJOIN%20leagues%20using(leagueid)%0AJOIN%20player_matches%20using(match_id)%0AJOIN%20players%20using(account_id)%0ALEFT%20JOIN%20notable_players%20ON%20notable_players.account_id%20%3D%20player_matches.account_id%0ALEFT%20JOIN%20teams%20using(team_id)%0AWHERE%20TRUE%0AAND%20kills%20IS%20NOT%20NULL%20%0AAND%20player_matches.account_id%20IN%20("
+                console.log("infollowed")
+            url = "https://api.opendota.com/api/explorer?sql=SELECT%0A%20%20%20%20%20%20%20%20notable_players.name%20%2C%0Aavg(kills)%20%22AVG%20Kills%22%2C%0Acount(distinct%20matches.match_id)%20count%2C%0Asum(case%20when%20(player_matches.player_slot%20%3C%20128)%20%3D%20radiant_win%20then%201%20else%200%20end)%3A%3Afloat%2Fcount(1)%20winrate%2C%0A%20%20%20%20%20%20%20%20players.avatarmedium%2C%0A%20%20%20%20%20%20%20%20players.avatarfull%2C%0A%20%20%20%20%20%20%20%20players.account_id%0AFROM%20matches%0AJOIN%20match_patch%20using(match_id)%0AJOIN%20leagues%20using(leagueid)%0AJOIN%20player_matches%20using(match_id)%0AJOIN%20players%20using(account_id)%0ALEFT%20JOIN%20notable_players%20ON%20notable_players.account_id%20%3D%20player_matches.account_id%0ALEFT%20JOIN%20teams%20using(team_id)%0AWHERE%20TRUE%0AAND%20kills%20IS%20NOT%20NULL%20%0AAND%20player_matches.account_id%20IN%20("
             +urlMid+
-            ")%0AGROUP%20BY%20teams.name%2C%20teams.team_id%2C%20team_rating.rating%2C%20team_rating.wins%2Cteam_rating.losses%0A%0ALIMIT%20200"
+            ")%0AGROUP%20BY%20notable_players.name%2C%20players.avatarfull%2C%20players.avatarmedium%2C%20players.account_id%0AHAVING%20count(distinct%20matches.match_id)%20%3E%3D%201%0AORDER%20BY%20%22AVG%20Kills%22%20DESC%2Ccount%20DESC%20NULLS%20LAST%0ALIMIT%20200"
+        console.log(url)
         }
+
             const response = await fetch(url);
             const responseJSON = await response.json();
             const rows = responseJSON.rows
+            console.log("rows"+rows)
             return rows;
     } catch (e) {
         Alert.alert("Error getting follows")

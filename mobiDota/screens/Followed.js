@@ -38,22 +38,23 @@ export default function Followed({ navigation }) {
   const [selectedIndexes, setSelectedIndexes] = useState([0, 1]);
 
   const getData = async () => {
-    let cachedTeams = ''
+    let cache = ''
     let caller = ''
     switch (selectedIndex) {
       case 0:
-        cachedTeams = 'followedTeams'
+        cache = 'followedTeams'
         caller = 'followedTeams'
         break;
         case 1:
-        cachedTeams = 'followedPlayers'
+        cache = 'players'
         caller = 'followedPlayers'
         break;
     }
     try {
-      const fetchedData = await getFollowedAPI(cachedTeams, caller);
+      const fetchedData = await getFollowedAPI(cache, caller);
       console.log("back here")
       setFollowedData(fetchedData);
+      console.log(fetchedData)
       setIsLoadingData(false);
     } catch (e) {
       Alert.alert("Error fetching data, function: getData", e)
@@ -64,7 +65,7 @@ export default function Followed({ navigation }) {
   keyExtractor = (item, index) => index.toString();
   renderItem = ({ item }) => (
     <ListItem bottomDivider>
-      <Avatar source={{ uri: item.logo_url }} />
+      <Avatar containerStyle={{backgroundColor: '#000'}} source={{ uri: item.logo_url || item.avatarmedium}} />
       <ListItem.Content>
         <ListItem.Title>{item.name}</ListItem.Title>
         <ListItem.Subtitle>{item.rating}</ListItem.Subtitle>

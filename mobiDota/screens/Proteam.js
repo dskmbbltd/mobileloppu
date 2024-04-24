@@ -19,9 +19,10 @@ export default function Proteam({ navigation, route }) {
     const [isLoadingTeamPlayers, setIsLoadingTeamPlayers] = useState(true);
     const [isFollowed, setIsFollowed] = useState(null);
     const [expanded, setExpanded] = useState(false);
+    const [followedPlayers, setFollowedPlayers] = useState([])
 
     const getData = async () => {
-        const url = "https://api.opendota.com/api/explorer?sql=SELECT%0A%20%20%20%20%20%20%20%20notable_players.name%20%2C%0Aavg(kills)%20%22AVG%20Kills%22%2C%0Acount(distinct%20matches.match_id)%20count%2C%0Asum(case%20when%20(player_matches.player_slot%20%3C%20128)%20%3D%20radiant_win%20then%201%20else%200%20end)%3A%3Afloat%2Fcount(1)%20winrate%2C%0Aplayers.avatarfull%0A%20%20%0AFROM%20matches%0AJOIN%20match_patch%20using(match_id)%0AJOIN%20leagues%20using(leagueid)%0AJOIN%20player_matches%20using(match_id)%0AJOIN%20players%20using(account_id)%0AJOIN%20heroes%20on%20heroes.id%20%3D%20player_matches.hero_id%0ALEFT%20JOIN%20notable_players%20ON%20notable_players.account_id%20%3D%20player_matches.account_id%0ALEFT%20JOIN%20teams%20using(team_id)%0AWHERE%20TRUE%0AAND%20kills%20IS%20NOT%20NULL%20%0AAND%20(notable_players.team_id%20%3D%20" + team_id + ")%0AGROUP%20BY%20notable_players.name%2Cplayers.avatarfull%0AHAVING%20count(distinct%20matches.match_id)%20%3E%3D%201%0AORDER%20BY%20%22AVG%20Kills%22%20DESC%2Ccount%20DESC%20NULLS%20LAST%0ALIMIT%20200"
+        const url = "https://api.opendota.com/api/explorer?sql=SELECT%0A%20%20%20%20%20%20%20%20notable_players.name%20%2C%0Anotable_players.account_id%2C%0Aavg(kills)%20%22AVG%20Kills%22%2C%0Acount(distinct%20matches.match_id)%20count%2C%0Asum(case%20when%20(player_matches.player_slot%20%3C%20128)%20%3D%20radiant_win%20then%201%20else%200%20end)%3A%3Afloat%2Fcount(1)%20winrate%2C%0Aplayers.avatarfull%0A%20%20%0AFROM%20matches%0AJOIN%20match_patch%20using(match_id)%0AJOIN%20leagues%20using(leagueid)%0AJOIN%20player_matches%20using(match_id)%0AJOIN%20players%20using(account_id)%0AJOIN%20heroes%20on%20heroes.id%20%3D%20player_matches.hero_id%0ALEFT%20JOIN%20notable_players%20ON%20notable_players.account_id%20%3D%20player_matches.account_id%0ALEFT%20JOIN%20teams%20using(team_id)%0AWHERE%20TRUE%0AAND%20kills%20IS%20NOT%20NULL%20%0AAND%20(notable_players.team_id%20%3D%20" + team_id + ")%0AGROUP%20BY%20notable_players.name%2Cnotable_players.account_id%2Cplayers.avatarfull%0AHAVING%20count(distinct%20matches.match_id)%20%3E%3D%201%0AORDER%20BY%20%22AVG%20Kills%22%20DESC%2Ccount%20DESC%20NULLS%20LAST%0ALIMIT%20200"
         const cachedTeamPlayers = team_id.toString();
         const caller = 'proteam'
         console.log(url)
@@ -46,7 +47,8 @@ export default function Proteam({ navigation, route }) {
             if (teams !== null && teams.includes(team_id)) {
                 setIsFollowed(true);
             }
-            return;
+            const players = await getFollowedData('players');
+            setFollowedPlayers(players);
         } catch (e) {
             Alert.alert("Error fetching followed data, function getFollowedTeams", e);
         }
@@ -65,11 +67,12 @@ export default function Proteam({ navigation, route }) {
             return <Text style={{marginTop: 15, color: 'white', textAlign:'center'}} >No player data for this team available.</Text>
         } else return (teamPlayers.map((player, key) => {
              return (
-                <ListItem.Accordion key={key} 
+                <ListItem.Accordion key={player.account_id} 
                     content={
-                        <ListItem.Content >
+                        <ListItem.Content style={{flex:1, flexDirection:'row', justifyContent: 'left', alignItems:'center'}}>
+                            {checkFollowed(player.account_id)}
                             <Avatar source={{ uri: player.avatarfull }} />
-                            <ListItem.Title key={key}>{player.name}</ListItem.Title>
+                            <ListItem.Title key={player.account_id}>{player.name}</ListItem.Title>
                         </ListItem.Content>
                     }
                     isExpanded={expanded === key}
@@ -85,26 +88,65 @@ export default function Proteam({ navigation, route }) {
             )
         }))
     }
-
-    const addOrRemove = async (action) => {
-        const followed1 = 'followedTeams';
-        if (action === 'add') {
-            try {
-                const teams = await addFollowedData(followed1, team_id);
-                setIsFollowed(true);
-            } catch (e) {
-                Alert.alert("couldnt add to followed list", e);
-            }
+    const checkFollowed = (accid) => {
+        if (followedPlayers.includes(accid)) {
+            return (
+                <Button
+                    ViewComponent={LinearGradient}
+                    linearGradientProps={{
+                        colors: ["#FF9800", "#F44336"],
+                        start: { x: 0, y: 0.5 },
+                        end: { x: 1, y: 0.5 },
+                    }}
+                    onPress={() => addOrRemove('remove', 'players', accid)}
+                >
+                    Followed
+                </Button>
+            )
         }
-        if (action === 'remove') {
-            try {
-                const teams = await removeFollowedData(followed1, team_id);
-                setIsFollowed(false);
-            } catch (e) {
-                Alert.alert("couldnt add to followed list", e);
-            }
-        }
+        return (
+            <Button
+                ViewComponent={LinearGradient}
+                linearGradientProps={{
+                    colors: ["#FF9800", "#F44336"],
+                    start: { x: 0, y: 0.5 },
+                    end: { x: 1, y: 0.5 },
+                }}
+                onPress={() => addOrRemove('add', 'players', accid)}
+            >
+                Not Followed
+            </Button>
+        )
     }
+
+const addOrRemove = async (action, caller, datatoAddorRemove) => {
+    let followedKey = ''
+    if (caller === 'teams') {
+        followedKey = 'followedTeams'
+    } else {
+        followedKey = 'players'
+    }
+
+    try {
+        if (action === 'add') {
+            const data = await addFollowedData(followedKey, datatoAddorRemove);
+            if (caller === 'teams') {
+                setIsFollowed(true);
+            } else {
+                setFollowedPlayers(data);
+            }
+        } else if (action === 'remove') {
+            const data = await removeFollowedData(followedKey, datatoAddorRemove);
+            if (caller === 'teams') {
+                setIsFollowed(false);
+            } else {
+                setFollowedPlayers(data);
+            }
+        }
+    } catch (error) {
+        Alert.alert("Couldn't update followed list", error);
+    }
+};
 
     const followedButton = () => {
         if (isFollowed) {
@@ -116,7 +158,7 @@ export default function Proteam({ navigation, route }) {
                         start: { x: 0, y: 0.5 },
                         end: { x: 1, y: 0.5 },
                     }}
-                    onPress={() => addOrRemove('remove')}
+                    onPress={() => addOrRemove('remove', 'teams', team_id)}
                 >
                     Team is Followed
                 </Button>
@@ -131,7 +173,7 @@ export default function Proteam({ navigation, route }) {
                         start: { x: 0, y: 0.5 },
                         end: { x: 1, y: 0.5 },
                     }}
-                    onPress={() => addOrRemove('add')}
+                    onPress={() => addOrRemove('add', 'teams', team_id)}
                 >
                     Team Not Followed
                 </Button>

@@ -44,8 +44,8 @@ export default function Home({ navigation }) {
       <Card containerStyle={styles.card1}>
         {navigateButtons.map((screen, key) => {
           return (
-            <>
-            <Button key={key}
+            <View key={key}>
+            <Button 
               containerStyle={styles.button}
               color={'#00001D'}
               title={screen.title}
@@ -53,7 +53,7 @@ export default function Home({ navigation }) {
             />
             <Divider color={'darkred'}
             inset={true} insetType="middle"/>
-            </>
+            </View>
           )
         })}
       </Card>

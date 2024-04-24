@@ -20,6 +20,7 @@ export default styles = StyleSheet.create({
         width: '100%',
         alignSelf: 'center',
         marginVertical: 10,
+        color: '#00001F',
       },
       list: {
         color: '#00001F',
