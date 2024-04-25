@@ -88,6 +88,7 @@ export default function Proteam({ navigation, route }) {
             )
         }))
     }
+    
     const checkFollowed = (accid) => {
         if (followedPlayers.includes(accid)) {
             return (
@@ -118,37 +119,7 @@ export default function Proteam({ navigation, route }) {
             </Button>
         )
     }
-
-const addOrRemove = async (action, caller, datatoAddorRemove) => {
-    let followedKey = ''
-    if (caller === 'teams') {
-        followedKey = 'followedTeams'
-    } else {
-        followedKey = 'players'
-    }
-
-    try {
-        if (action === 'add') {
-            const data = await addFollowedData(followedKey, datatoAddorRemove);
-            if (caller === 'teams') {
-                setIsFollowed(true);
-            } else {
-                setFollowedPlayers(data);
-            }
-        } else if (action === 'remove') {
-            const data = await removeFollowedData(followedKey, datatoAddorRemove);
-            if (caller === 'teams') {
-                setIsFollowed(false);
-            } else {
-                setFollowedPlayers(data);
-            }
-        }
-    } catch (error) {
-        Alert.alert("Couldn't update followed list", error);
-    }
-};
-
-    const followedButton = () => {
+const followedButton = () => {
         if (isFollowed) {
             return (
                 <Button
@@ -180,6 +151,36 @@ const addOrRemove = async (action, caller, datatoAddorRemove) => {
             )
         }
     }
+const addOrRemove = async (action, caller, datatoAddorRemove) => {
+    let followedKey = ''
+    if (caller === 'teams') {
+        followedKey = 'followedTeams'
+    } else {
+        followedKey = 'players'
+    }
+
+    try {
+        if (action === 'add') {
+            const data = await addFollowedData(followedKey, datatoAddorRemove);
+            if (caller === 'teams') {
+                setIsFollowed(true);
+            } else {
+                setFollowedPlayers(data);
+            }
+        } else if (action === 'remove') {
+            const data = await removeFollowedData(followedKey, datatoAddorRemove);
+            if (caller === 'teams') {
+                setIsFollowed(false);
+            } else {
+                setFollowedPlayers(data);
+            }
+        }
+    } catch (error) {
+        Alert.alert("Couldn't update followed list", error);
+    }
+};
+
+    
 
     return (
         <Card containerStyle={styles.card1}>

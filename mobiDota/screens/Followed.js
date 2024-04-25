@@ -32,7 +32,6 @@ export default function Followed({ navigation }) {
   const [followedPlayersData, setFollowedPlayersData] = useState([]);
   const [followedData, setFollowedData] = useState([]);
   const [isLoadingData, setIsLoadingData] = useState(true);
-  const [isLoadingPlayers, setIsLoadingPlayers] = useState(true);
   const proTeamIdsAsNmbr = proteamids.map(Number);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [selectedIndexes, setSelectedIndexes] = useState([0, 1]);
@@ -51,6 +50,7 @@ export default function Followed({ navigation }) {
         break;
     }
     try {
+      setIsLoadingData(true)
       const fetchedData = await getFollowedAPI(cache, caller);
       console.log("back here")
       setFollowedData(fetchedData);

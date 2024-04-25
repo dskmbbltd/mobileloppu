@@ -12,25 +12,10 @@ import { ListItemTitle } from '@rneui/base/dist/ListItem/ListItem.Title.js';
 import { BarChart, LineChart, PieChart, PopulationPyramid } from "react-native-gifted-charts";
 import { Divider } from '@rneui/base';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  }, horizontal: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    padding: 10,
-  }, loading: {
-    paddingTop: '100%',
-
-  }
-});
 
 export default function Charts({ navigation }) {
 
-  const data=[ {value:50}, {value:80}, {value:90}, {value:70} ]
+  const data=[ {value:50}, {value:80}, {value:90}, {value:70} ] // test data
   const [isLoadingData, setIsLoadingData] = useState(true);
   const [mmrHistogram, setMmrHistogram] = useState([]);
   

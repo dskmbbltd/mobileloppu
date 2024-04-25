@@ -45,6 +45,7 @@ export default function Leagues({ navigation }) {
   useEffect(() => { getData(url, 'leagueinfo') }, []);
 
   keyExtractor = (item, index) => index.toString();
+  // flatlist grididea modified from https://stackoverflow.com/a/46368597
   renderItem = ({ item }) => (
     <ListItem.Accordion containerStyle={styles.list}
       bottomDivider

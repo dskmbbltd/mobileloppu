@@ -9,28 +9,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import proteamids from '../predata/proteamids.js';
 import { getSearchData, getDataCacheAPI, getFollowedAPI, getFollowedData, addFollowedData, removeFollowedData } from '../predata/apidatafunctions.js';
 import { ListItemTitle } from '@rneui/base/dist/ListItem/ListItem.Title.js';
-// import { ButtonGroup, Button } from '@rneui/base';
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  }, horizontal: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    padding: 10,
-  }, loading: {
-    paddingTop: '100%',
-
-  }
-});
 
 export default function Search({ navigation }) {
-
-
   const urldatdota = "https://www.datdota.com/teams/"
   const urldotabuff = "https://www.dotabuff.com/esports/teams/"
   const urlstratz = "https://stratz.com/teams/"
@@ -81,8 +61,8 @@ export default function Search({ navigation }) {
       <Avatar source={{ uri: item.avatarfull }} />
       <ListItem.Content>
         <ListItem.Title>{item.personaname}</ListItem.Title>
-        <ListItem.Subtitle>{item.account_id}</ListItem.Subtitle>
-        <ListItem.Subtitle>{item.similarity}</ListItem.Subtitle>
+        <ListItem.Subtitle>{"Account id: "+item.account_id}</ListItem.Subtitle>
+        <ListItem.Subtitle>{"Similarity: "+item.similarity}</ListItem.Subtitle>
       </ListItem.Content>
       <ListItem.Chevron onPress={() => navigation.navigate(naviLink, { item: item })} />
           </ListItem>
@@ -93,8 +73,8 @@ export default function Search({ navigation }) {
       <Avatar source={{ uri: item.logo_url }} />
       <ListItem.Content>
         <ListItem.Title>{item.name}</ListItem.Title>
-        <ListItem.Subtitle>{item.team_id}</ListItem.Subtitle>
-        <ListItem.Subtitle>{item.rating}</ListItem.Subtitle>
+        <ListItem.Subtitle>{"Team id: "+item.team_id}</ListItem.Subtitle>
+        <ListItem.Subtitle>{"Rating: "+item.rating}</ListItem.Subtitle>
       </ListItem.Content>
       <ListItem.Chevron onPress={() => navigation.navigate(naviLink, { item: item })} />
     </ListItem>
@@ -120,6 +100,7 @@ export default function Search({ navigation }) {
       <Text style={{ textAlign: 'center' }}>Search mode</Text>
       <ButtonGroup
         buttons={['PLAYERS', 'TEAMS', 'LEAGUES']}
+        selectedButtonStyle={{backgroundColor: '#00001F'}}
         selectedIndex={selectedIndex}
         onPress={(value) => {
           setSelectedIndex(value);
@@ -131,7 +112,10 @@ export default function Search({ navigation }) {
         onChangeText={updateSearch}
         value={search}
       />
-      <Button onPress={getData}>Search</Button>
+      <Button onPress={getData}
+      buttonStyle={{ backgroundColor: '#fff', marginBottom:5}}
+      titleStyle={{color: '#000'}}
+      >Search</Button>
       <FlatList
         initialNumToRender={15}
         maxToRenderPerBatch={15}

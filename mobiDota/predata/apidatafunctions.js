@@ -41,7 +41,6 @@ const getDataCacheAPI = async (url = '', cache, cachedMaxTime = 600000, caller =
 
             // only set data for league ids found in preset data
             responseJSON = responseJSON.filter(obj => proleagueids.includes(obj.leagueid));
-
         }
 
         await AsyncStorage.setItem(cache, JSON.stringify(responseJSON));
@@ -56,7 +55,6 @@ const getDataCacheAPI = async (url = '', cache, cachedMaxTime = 600000, caller =
 const getFollowedData = async (cache) => {
     try {
         const cachedFollowed = await AsyncStorage.getItem(cache);
-
         if (cachedFollowed !== null) {
             return JSON.parse(cachedFollowed);
         }
@@ -68,9 +66,7 @@ const getFollowedData = async (cache) => {
 const addFollowedData = async (cache, dataToAdd) => {
     try {
         const cachedFollowed = await getFollowedData(cache);
-
         cachedFollowed.push(dataToAdd);
-
         await AsyncStorage.setItem(cache, JSON.stringify(cachedFollowed));
         return cachedFollowed;
     } catch (e) {
@@ -94,7 +90,6 @@ const removeFollowedData = async (cache, dataToRemove) => {
 const getFollowedAPI = async (cache, caller) => {
     try {
         let url = ''
-            //only set data for 
             const followed = await getFollowedData(cache)
             console.log(followed)
             const urlMid = followed.join('%2C')
