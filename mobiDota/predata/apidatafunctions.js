@@ -7,6 +7,7 @@ import proleagueids from '../predata/proleagueids.js';
 const getDataCacheAPI = async (url = '', cache, cachedMaxTime = 600000, caller = '') => {
     console.log("caller", caller)
     console.log("cache", cache)
+    
     try {
         const cachedData = await AsyncStorage.getItem(cache);
         const cachedDataTime = await AsyncStorage.getItem(`${cache}Time`);
@@ -34,33 +35,24 @@ const getDataCacheAPI = async (url = '', cache, cachedMaxTime = 600000, caller =
 
             // only set data for team id found in preset data
             responseJSON = responseJSON.filter(obj => proTeamIdsAsNmbr.includes(obj.team_id));
-
-            // await AsyncStorage.setItem(cache, JSON.stringify(teamsInProTeamList));
-            // await AsyncStorage.setItem(`${cache}Time`, Date.now().toString());
-
-            // return teamsInProTeamList;
         }
         if (caller === 'leagues') { // if calling from leagues screen
             console.log("now in leagues")
 
             // only set data for league ids found in preset data
             responseJSON = responseJSON.filter(obj => proleagueids.includes(obj.leagueid));
-            // await AsyncStorage.setItem(cache, JSON.stringify(leaguesInProLeaguesList));
-            // await AsyncStorage.setItem(`${cache}Time`, Date.now().toString());
-            // return leaguesInProLeaguesList;
-        }
 
+        }
 
         await AsyncStorage.setItem(cache, JSON.stringify(responseJSON));
         await AsyncStorage.setItem(`${cache}Time`, Date.now().toString());
         return responseJSON;
-
-
     } catch (e) {
         Alert.alert("Error fetching team data, function getDataCacheAPI:", e);
     }
 };
 
+// for Followed
 const getFollowedData = async (cache) => {
     try {
         const cachedFollowed = await AsyncStorage.getItem(cache);
@@ -119,7 +111,6 @@ const getFollowedAPI = async (cache, caller) => {
             ")%0AGROUP%20BY%20notable_players.name%2C%20players.avatarfull%2C%20players.avatarmedium%2C%20players.account_id%0AHAVING%20count(distinct%20matches.match_id)%20%3E%3D%201%0AORDER%20BY%20%22AVG%20Kills%22%20DESC%2Ccount%20DESC%20NULLS%20LAST%0ALIMIT%20200"
         console.log(url)
         }
-
             const response = await fetch(url);
             const responseJSON = await response.json();
             const rows = responseJSON.rows
@@ -130,6 +121,7 @@ const getFollowedAPI = async (cache, caller) => {
     }
 }
 
+// for Search screen
 const getSearchData = async (searchmode, search) => {
     let url = '';
     switch (searchmode) {
@@ -158,6 +150,7 @@ const getSearchData = async (searchmode, search) => {
     }
 }
 
+// for Charts screen
 const getChartData = async (data) => {
     let url = '';
     switch (data) {

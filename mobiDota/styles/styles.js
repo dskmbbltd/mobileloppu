@@ -11,7 +11,15 @@ export default styles = StyleSheet.create({
         backgroundColor: '#00001F',
         borderRadius: 5,
         borderColor: 'black',
-        width: '95%'
+        width: '95%',
+    },
+    cardleagues: {
+      borderRadius: 5,
+      marginHorizontal: 2,
+      flex:1,
+      alignItems: 'center',
+      backgroundColor: '#EEE'
+      
     },
     text: {
         color: 'white'
@@ -25,5 +33,5 @@ export default styles = StyleSheet.create({
       list: {
         color: '#00001F',
         backgroundColor: '#00001F',
-      }
+      },
   });
