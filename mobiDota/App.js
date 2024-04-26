@@ -15,11 +15,81 @@ import Charts from './screens/Charts.js'
 
 
 const Stack = createNativeStackNavigator();
+const ProStack = ({ navigation }) => {
+  return (
+    <Stack.Navigator screenOptions={{
+      headerStyle: {
+        backgroundColor: '#fff',
+      },
+      headerTintColor: '#00001F'
+    }}>
+      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="Proplayers" component={Proplayers} />
+      <Stack.Screen name="Proteams" component={Proteams} />
+      <Stack.Screen name="Proteam" component={Proteam} />
+      <Stack.Screen name="Leagues" component={Leagues} />
+      <Stack.Screen name="Followed" component={Followed} />
+      <Stack.Screen name="Search" component={Search} />
+
+    </Stack.Navigator>
+  )
+}
+const HomeStack = ({ navigation }) => {
+  return (<Stack.Navigator
+    screenOptions={{
+      headerStyle: {
+        backgroundColor: '#fff',
+      },
+      headerTintColor: '#00001F'
+    }}
+  >
+    <Stack.Screen name="Charts" component={Charts} />
+  </Stack.Navigator>
+  )
+}
+
+const Tab = createBottomTabNavigator();
+
+export function TabNavigator() {
+  return (
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        headerShown: false,
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+
+          if (route.name === 'Pros') {
+            iconName = focused ? 'home' : 'home';
+          } else if (route.name === 'Graphs') {
+            iconName = focused ? 'pulse' : 'pulse';
+          }
+          return <Octicons name={iconName} size={size} color={color} />;
+        },
+        tabBarActiveTintColor: 'tomato',
+        tabBarInactiveTintColor: 'gray',
+      })}
+    >
+      <Tab.Screen
+        options={{
+          tabBarLabel: 'Pro Dota',
+
+        }}
+        name='Pros' component={ProStack} />
+      <Tab.Screen
+        options={{
+          tabBarLabel: 'Graphs & Data',
+        }}
+        name='Graphs' component={HomeStack} />
+    </Tab.Navigator>
+  )
+}
 const MyTheme = {
   dark: false,
   colors: {
     primary: 'rgb(255, 45, 85)',
     background: '#000020',
+    activeTintColor: 'blue',
+    inactivetintcolor: 'green',
     card: '#000020',
     text: 'rgb(28, 28, 30)',
     border: 'rgb(199, 199, 204)',
