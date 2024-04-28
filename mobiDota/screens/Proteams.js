@@ -26,11 +26,9 @@ import {getDataCacheAPI} from '../predata/apidatafunctions.js'
 
 
 export default function Proplayers({ navigation }) {
-
-
-  const urldatdota = "https://www.datdota.com/teams/"
-  const urldotabuff = "https://www.dotabuff.com/esports/teams/"
-  const urlstratz = "https://stratz.com/teams/"
+  const urldatdota = "https://www.datdota.com/teams/";
+  const urldotabuff = "https://www.dotabuff.com/esports/teams/";
+  const urlstratz = "https://stratz.com/teams/";
   const [playersData, setPlayersData] = useState([]);
   const [teamsData, setTeamsData] = useState([]);
   const [isLoadingTeam, setIsLoadingTeam] = useState(true);
@@ -38,18 +36,18 @@ export default function Proplayers({ navigation }) {
   const proTeamIdsAsNmbr = proteamids.map(Number);
 
   const getData = async () => {
-    const url = "https://api.opendota.com/api/teams"
-    const cachedTeams = 'cachedTeams'
-    const caller = 'proteams'
+    const url = "https://api.opendota.com/api/teams";
+    const cachedTeams = 'cachedTeams';
+    const caller = 'proteams';
     try {
       const fetchedData = await getDataCacheAPI(url, cachedTeams, 600000, caller);
-      console.log("back here")
+      console.log("back here");
       setTeamsData(fetchedData);
       setIsLoadingTeam(false);
     } catch (e) {
-      Alert.alert("Error fetching data, function: getData", e)
-    }
-  }
+      Alert.alert("Error fetching data, function: getData", e);
+    };
+  };
   useEffect(() => { getData() }, []);
 
   keyExtractor = (item, index) => index.toString();
@@ -69,7 +67,7 @@ export default function Proplayers({ navigation }) {
   const getAPIdata = () => {
     if (isLoadingTeam) {
       return <><ActivityIndicator style={styles.loading} size="large" /><Text style={{ textAlign: 'center' }}>Fetching data...</Text></>
-    }
+    };
     return <FlatList
       initialNumToRender={15}
       maxToRenderPerBatch={15}
@@ -77,9 +75,9 @@ export default function Proplayers({ navigation }) {
       data={teamsData}
       renderItem={renderItem}
     />
-  }
+  };
 
   return (
     <View >{getAPIdata()}</View>
   );
-}
+};

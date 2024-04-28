@@ -11,8 +11,8 @@ import Leagues from './screens/Leagues.js';
 import Followed from './screens/Followed.js';
 import Search from './screens/Search.js'
 import Charts from './screens/Charts.js'
-
-
+import { Octicons } from '@expo/vector-icons';
+import HeroStats from './screens/HeroStats.js';
 
 const Stack = createNativeStackNavigator();
 const ProStack = ({ navigation }) => {
@@ -34,7 +34,7 @@ const ProStack = ({ navigation }) => {
     </Stack.Navigator>
   )
 }
-const HomeStack = ({ navigation }) => {
+const StatsStack = ({ navigation }) => {
   return (<Stack.Navigator
     screenOptions={{
       headerStyle: {
@@ -43,6 +43,7 @@ const HomeStack = ({ navigation }) => {
       headerTintColor: '#00001F'
     }}
   >
+    <Stack.Screen name="Heroes" component={HeroStats} />
     <Stack.Screen name="Charts" component={Charts} />
   </Stack.Navigator>
   )
@@ -79,7 +80,7 @@ export function TabNavigator() {
         options={{
           tabBarLabel: 'Graphs & Data',
         }}
-        name='Graphs' component={HomeStack} />
+        name='Graphs' component={StatsStack} />
     </Tab.Navigator>
   )
 }

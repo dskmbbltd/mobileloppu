@@ -17,7 +17,7 @@ export default function Search({ navigation }) {
   const [followedPlayersData, setFollowedPlayersData] = useState([]);
   const [searchData, setSearchData] = useState([]);
   const [isLoadingData, setIsLoadingData] = useState(true);
-  const [isLoadingPlayers, setIsLoadingPlayers] = useState(true);
+  // const [isLoadingPlayers, setIsLoadingPlayers] = useState(true);
   const proTeamIdsAsNmbr = proteamids.map(Number);
   const [mode, setMode] = useState('');
   let naviLink = ''
@@ -52,7 +52,7 @@ export default function Search({ navigation }) {
       Alert.alert("Error fetching data, function: getData", e)
     }
   }
-
+ // TODO use playeroverlay. refactor to own component
   keyExtractor = (item, index) => index.toString();
   renderItem = ({ item }) => {
     if (selectedIndex === 0) { // player search rendering
