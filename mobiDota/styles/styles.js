@@ -20,6 +20,13 @@ export default styles = StyleSheet.create({
         width: '95%',
         flex: 1
     },
+    cardplayer: {
+        backgroundColor: '#00001F',
+        borderRadius: 5,
+        borderColor: 'black',
+        width: '95%',
+        flex: 1
+    },
     cardleagues: {
       borderRadius: 5,
       marginHorizontal: 2,

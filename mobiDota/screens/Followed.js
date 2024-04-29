@@ -1,12 +1,11 @@
-import { StatusBar } from 'expo-status-bar';
+// import { StatusBar } from 'expo-status-bar';
 import { ActivityIndicator, Alert, Button, FlatList, StyleSheet, Text, View } from 'react-native';
 import { useEffect, useRef, useState } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+// import { NavigationContainer } from '@react-navigation/native';
+// import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+// import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Card, ListItem, Avatar, ButtonGroup } from '@rneui/themed';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import proteamids from '../predata/proteamids.js';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getDataCacheAPI, getFollowedAPI, getFollowedData, addFollowedData, removeFollowedData } from '../predata/apidatafunctions.js';
 import styles from '../styles/styles.js';
 import { Octicons } from '@expo/vector-icons';
@@ -23,18 +22,16 @@ import { Overlay } from '@rneui/base';
 //   "logo_url": "https://steamusercontent-a.akamaihd.net/ugc/2314350571781870059/2B5C9FE9BA0A2DC303A13261444532AA08352843/"
 // }
 
-
-
 export default function Followed({ navigation }) {
 
 
-  const urldatdota = "https://www.datdota.com/teams/"
-  const urldotabuff = "https://www.dotabuff.com/esports/teams/"
-  const urlstratz = "https://stratz.com/teams/"
+  // const urldatdota = "https://www.datdota.com/teams/"
+  // const urldotabuff = "https://www.dotabuff.com/esports/teams/"
+  // const urlstratz = "https://stratz.com/teams/"
   const [followedPlayersData, setFollowedPlayersData] = useState([]);
   const [followedData, setFollowedData] = useState([]);
   const [isLoadingData, setIsLoadingData] = useState(true);
-  const proTeamIdsAsNmbr = proteamids.map(Number);
+  // const proTeamIdsAsNmbr = proteamids.map(Number);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [selectedIndexes, setSelectedIndexes] = useState([0, 1]);
 const [visible, setVisible] = useState(false);
@@ -98,7 +95,7 @@ const PlayerOverlay = (item) => {
         <ListItem.Subtitle>{item.rating}</ListItem.Subtitle>
       </ListItem.Content>
       { item.logo_url ? <ListItem.Chevron onPress={() => navigation.navigate('Proteam', { item: item })} />
-    : <><Octicons name={'info'} size={24} onPress={() => toggleOverlay(item.account_id)}></Octicons>{PlayerOverlay(item)}</>}
+    : <ListItem.Chevron onPress={() => navigation.navigate('Proplayer', { item: item })} />}
     </ListItem>
   );
 

@@ -1,14 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Alert } from 'react-native';
-import proteamids from '../predata/proteamids.js';
 import proleagueids from '../predata/proleagueids.js';
 
 const getDataCacheAPI = async (url = '', cache, cachedMaxTime = 600000, caller = '') => {
-    console.log("caller", caller)
-    console.log("cache", cache)
-    
-    try {
+    // console.log("caller", caller)
+    // console.log("cache", cache)
+        try {
         const cachedData = await AsyncStorage.getItem(cache);
         const cachedDataTime = await AsyncStorage.getItem(`${cache}Time`);
 

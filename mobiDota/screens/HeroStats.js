@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getDataCacheAPI } from "../predata/apidatafunctions";
 import styles from "../styles/styles";
 import { FlatList, Button, StyleSheet, Alert, ActivityIndicator, Text, View } from "react-native";
-import { Card } from "@rneui/base";
+// import { Card } from "@rneui/base";
 import { BarChart, LineChart, PieChart, PopulationPyramid } from "react-native-gifted-charts";
 import { Picker } from '@react-native-picker/picker';
 

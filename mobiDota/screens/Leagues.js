@@ -2,17 +2,17 @@
 // https://api.opendota.com/api/leagues/16483/
 
 import { useEffect, useState } from "react";
-import proleagueids from "../predata/proleagueids";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import proleagueids from "../predata/proleagueids";
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ActivityIndicator, Alert, FlatList, StyleSheet, Text, View } from "react-native";
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+// import { NavigationContainer } from '@react-navigation/native';
+// import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+// import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Button, Card, ListItem } from "@rneui/base";
 import { Avatar } from "@rneui/base/dist/Avatar/Avatar";
 import { getDataCacheAPI, getFollowedAPI, getFollowedData, addFollowedData, removeFollowedData } from '../predata/apidatafunctions.js';
 import styles from "../styles/styles.js";
-import { LinearGradient } from "expo-linear-gradient";
+// import { LinearGradient } from "expo-linear-gradient";
 
 // leagues should have dropdowns for participating teams with links to Proteam screen
 export default function Leagues({ navigation }) {
@@ -23,13 +23,13 @@ export default function Leagues({ navigation }) {
 
   let url = "https://api.opendota.com/api/leagues"
   const getData = async (url, type) => {
-    console.log(url)
+    // console.log(url)
     let cache = type === 'leagueinfo' ? 'cachedLeagues' : type;
     let caller = type === 'leagueinfo' ? 'leagues' : type;
     try {
       const fetchedData = await getDataCacheAPI(url, cache, 24 * 60 * 60000, caller);
-      console.log("back here")
-      console.log(fetchedData)
+      // console.log("back here")
+      // console.log(fetchedData)
       if (type === 'leagueinfo') {
         setLeaguesData(fetchedData);
         setIsLoadingLeagues(false);

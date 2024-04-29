@@ -1,5 +1,5 @@
-import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, View } from 'react-native';
+// import { StatusBar } from 'expo-status-bar';
+// import { Button, StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -59,7 +59,6 @@ export function TabNavigator() {
         headerShown: false,
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
-
           if (route.name === 'Pros') {
             iconName = focused ? 'home' : 'home';
           } else if (route.name === 'Graphs') {
@@ -74,7 +73,6 @@ export function TabNavigator() {
       <Tab.Screen
         options={{
           tabBarLabel: 'Pro Dota',
-
         }}
         name='Pros' component={ProStack} />
       <Tab.Screen
@@ -119,7 +117,5 @@ export default function App() {
         <Stack.Screen name="Charts" component={Charts} />
       </Stack.Navigator>
     </NavigationContainer>
-
-    
   );
 }
