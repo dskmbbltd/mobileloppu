@@ -64,8 +64,9 @@ export default function Leagues({ navigation }) {
         renderItem={({item}) =>
         <View style={{backgroundColor: '#00001D',width: '25%', height:125}}>
           <Card containerStyle={styles.cardleagues}>
-            <Avatar  rounded size={50} containerStyle={{alignSelf: 'center', backgroundColor: '#000'}} source={{ uri: item.logo_url}} />
-            <Card.Title>{item.name}</Card.Title>
+            <Avatar rounded size={50} containerStyle={{alignSelf: 'center', backgroundColor: '#000'}} source={{ uri: item.logo_url}}
+            onPress={() => navigation.navigate('Proteam', { item: item })} />
+            <Card.Title onPress={() => navigation.navigate('Proteam', { item: item })}>{item.name}</Card.Title>
           </Card>
         </View>}>
 

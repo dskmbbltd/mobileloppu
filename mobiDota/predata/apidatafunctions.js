@@ -31,10 +31,11 @@ const getDataCacheAPI = async (url = '', cache, cachedMaxTime = 600000, caller =
         }
         if (caller === 'proteams') { // if calling from Proteams screen
             console.log("now in proteams")
-            const proTeamIdsAsNmbr = proteamids.map(Number);
+            responseJSON = responseJSON.rows
+            // const proTeamIdsAsNmbr = proteamids.map(Number);
 
             // only set data for team id found in preset data
-            responseJSON = responseJSON.filter(obj => proTeamIdsAsNmbr.includes(obj.team_id));
+            // responseJSON = responseJSON.filter(obj => proTeamIdsAsNmbr.includes(obj.team_id));
         }
         if (caller === 'leagues') { // if calling from leagues screen
             console.log("now in leagues")

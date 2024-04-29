@@ -4,7 +4,6 @@ import { NavigationContainer, DefaultTheme, ThemeProvider } from '@react-navigat
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './screens/Home.js';
-import Proplayers from './screens/Proplayers.js';
 import Proteams from './screens/Proteams.js';
 import Proteam from './screens/Proteam.js';
 import Leagues from './screens/Leagues.js';
@@ -13,6 +12,7 @@ import Search from './screens/Search.js'
 import Charts from './screens/Charts.js'
 import { Octicons } from '@expo/vector-icons';
 import HeroStats from './screens/HeroStats.js';
+import Proplayer from './screens/Proplayer.js';
 
 const Stack = createNativeStackNavigator();
 const ProStack = ({ navigation }) => {
@@ -24,7 +24,7 @@ const ProStack = ({ navigation }) => {
       headerTintColor: '#00001F'
     }}>
       <Stack.Screen name="Home" component={Home} />
-      <Stack.Screen name="Proplayers" component={Proplayers} />
+      <Stack.Screen name="Proplayer" component={Proplayer} />
       <Stack.Screen name="Proteams" component={Proteams} />
       <Stack.Screen name="Proteam" component={Proteam} />
       <Stack.Screen name="Leagues" component={Leagues} />

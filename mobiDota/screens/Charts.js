@@ -18,16 +18,11 @@ export default function Charts({ navigation }) {
   const data=[ {value:50}, {value:80}, {value:90}, {value:70} ] // test data
   const [isLoadingData, setIsLoadingData] = useState(true);
   const [mmrHistogram, setMmrHistogram] = useState([]);
-  
 
   const getData = async () => {
     try {
       const fetchedData = await getChartData('mmrteams');
-      //mmrhistogram
-      // const toData = fetchedData.map(({count,bin}) => ({ value: count, label: bin }));
-      //mmrteams
       const toData = fetchedData.map(({bucket_range,team_count}) => ({ value: team_count, label: bucket_range }));
-
       setMmrHistogram(toData);
       console.log(toData);
       setIsLoadingData(false);

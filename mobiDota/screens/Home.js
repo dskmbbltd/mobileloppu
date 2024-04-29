@@ -10,7 +10,7 @@ import { Divider } from '@rneui/base';
 export default function Home({ navigation }) {
   
   const navigateButtons = [{
-    title: 'Pro teams',
+    title: 'TOP 100 Pro teams',
     navigate: 'Proteams'
   },
   // {

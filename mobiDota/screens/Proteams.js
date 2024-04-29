@@ -25,7 +25,7 @@ import {getDataCacheAPI} from '../predata/apidatafunctions.js'
 // }
 
 
-export default function Proplayers({ navigation }) {
+export default function Proteams({ navigation }) {
   const urldatdota = "https://www.datdota.com/teams/";
   const urldotabuff = "https://www.dotabuff.com/esports/teams/";
   const urlstratz = "https://stratz.com/teams/";
@@ -36,11 +36,11 @@ export default function Proplayers({ navigation }) {
   const proTeamIdsAsNmbr = proteamids.map(Number);
 
   const getData = async () => {
-    const url = "https://api.opendota.com/api/teams";
+    const url = "https://api.opendota.com/api/explorer?sql=SELECT%20teams.name%2C%20teams.logo_url%2C%0Ateam_rating.rating%2C%20teams.team_id%0A%0AFROM%20teams%0AJOIN%20team_rating%20using(team_id)%0AORDER%20BY%20team_rating.rating%20DESC%0ALIMIT%20100";
     const cachedTeams = 'cachedTeams';
     const caller = 'proteams';
     try {
-      const fetchedData = await getDataCacheAPI(url, cachedTeams, 600000, caller);
+      const fetchedData = await getDataCacheAPI(url, cachedTeams, 0, caller);
       console.log("back here");
       setTeamsData(fetchedData);
       setIsLoadingTeam(false);

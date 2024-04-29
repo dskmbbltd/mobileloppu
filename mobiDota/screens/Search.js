@@ -33,7 +33,7 @@ export default function Search({ navigation }) {
   // change navilink  in renderItem() depending on what we're searching for
   switch (selectedIndex) {
     case 0:
-      naviLink = 'Player';
+      naviLink = 'Proplayer';
       break;
     case 1:
       naviLink = 'Proteam';
@@ -56,18 +56,25 @@ export default function Search({ navigation }) {
   keyExtractor = (item, index) => index.toString();
   renderItem = ({ item }) => {
     if (selectedIndex === 0) { // player search rendering
-    return (
+      if (!item.personaname) {
+        return (<></>)
+      }
+      return (
     <ListItem bottomDivider>
       <Avatar source={{ uri: item.avatarfull }} />
       <ListItem.Content>
         <ListItem.Title>{item.personaname}</ListItem.Title>
         <ListItem.Subtitle>{"Account id: "+item.account_id}</ListItem.Subtitle>
         <ListItem.Subtitle>{"Similarity: "+item.similarity}</ListItem.Subtitle>
+        <ListItem.Subtitle>{"Last match time: "+(item.last_match_time ? item.last_match_time : "No info")}</ListItem.Subtitle>
       </ListItem.Content>
       <ListItem.Chevron onPress={() => navigation.navigate(naviLink, { item: item })} />
           </ListItem>
   )}
   if (selectedIndex === 1) { // team search rendering
+    if (!item.logo_url) {
+      return (<></>)
+    }
     return (
     <ListItem bottomDivider>
       <Avatar source={{ uri: item.logo_url }} />
@@ -99,7 +106,7 @@ export default function Search({ navigation }) {
     <View>
       <Text style={{ textAlign: 'center' }}>Search mode</Text>
       <ButtonGroup
-        buttons={['PLAYERS', 'TEAMS', 'LEAGUES']}
+        buttons={['PLAYERS', 'TEAMS']}
         selectedButtonStyle={{backgroundColor: '#00001F'}}
         selectedIndex={selectedIndex}
         onPress={(value) => {

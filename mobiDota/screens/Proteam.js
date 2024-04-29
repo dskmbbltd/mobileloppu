@@ -13,6 +13,7 @@ import styles from '../styles/styles.js';
 
 export default function Proteam({ navigation, route }) {
     const team = route.params.item;
+    console.log(team)
     const team_id = team.team_id;
     const [teamPlayers, setTeamPlayers] = useState([]);
     const [isLoadingTeamPlayers, setIsLoadingTeamPlayers] = useState(true);
@@ -39,7 +40,7 @@ export default function Proteam({ navigation, route }) {
     useEffect(() => { getData() }, []);
 
     //GET FOLLOWED DATA  
-    const getFollowedTeams = async () => {
+    const getFollowed = async () => {
         const followed = 'followedTeams';
         try {
             const teams = await getFollowedData(followed);
@@ -52,7 +53,7 @@ export default function Proteam({ navigation, route }) {
             Alert.alert("Error fetching followed data, function getFollowedTeams", e);
         };
     };
-    useEffect(() => { getFollowedTeams() }, []);
+    useEffect(() => { getFollowed() }, []);
 
     //ACCORDION HANDLING idea modified from https://mui.com/material-ui/react-accordion/
     const handleExpand = (key) => {
@@ -61,14 +62,15 @@ export default function Proteam({ navigation, route }) {
 
     const getAPIdata = () => {
         if (isLoadingTeamPlayers) {
-            return <><ActivityIndicator style={styles.loading} size="large" /><Text style={{ textAlign: 'center' }}>Fetching data...</Text></>
+            return <><ActivityIndicator style={styles.loading} size="large" />
+            <Text style={{ textAlign: 'center' }}>Fetching data...</Text></>
         } if (teamPlayers.length === 0) { // no team member data
             return <Text style={{marginTop: 15, color: 'white', textAlign:'center'}} >No player data for this team available.</Text>
         } else return (teamPlayers.map((player, key) => {
              return (
                 <ListItem.Accordion key={player.account_id} 
                     content={
-                        <ListItem.Content style={{flex:1, flexDirection:'row', justifyContent: 'left', alignItems:'center'}}>
+                        <ListItem.Content style={styles.proteamListItemContentAccordion}>
                             {checkFollowed(player.account_id)}
                             <Avatar source={{ uri: player.avatarfull }} />
                             <ListItem.Title key={player.account_id}>{player.name}</ListItem.Title>
@@ -77,8 +79,8 @@ export default function Proteam({ navigation, route }) {
                     isExpanded={expanded === key}
                     onPress={() => handleExpand(key)}
                 >
-                    <ListItem>
-                        <ListItem.Content>
+                    <ListItem >
+                        <ListItem.Content style={{flex:1, alignItems:'center'}}>
                             <Text>{"Matches: " + player.count}</Text>
                             <Text>{"Win rate: " + Math.round(player.winrate * 100) + "%"}</Text>
                         </ListItem.Content>
@@ -102,22 +104,20 @@ export default function Proteam({ navigation, route }) {
                 >
                     Followed
                 </Button>
-            );
-        };
+            )};
         return (
             <Button
                 ViewComponent={LinearGradient}
                 linearGradientProps={{
-                    colors: ["#FF9800", "#F44336"],
-                    start: { x: 0, y: 0.5 },
-                    end: { x: 1, y: 0.5 },
+                    colors: ["#03d7fc", "#028299"],
+                        start: { x: 0, y: 0.5 },
+                        end: { x: 1, y: 0.5 },
                 }}
                 onPress={() => addOrRemove('add', 'players', accid)}
             >
                 Not Followed
             </Button>
-        )
-    }
+        )};
 const followedButton = () => {
         if (isFollowed) {
             return (
@@ -132,8 +132,7 @@ const followedButton = () => {
                 >
                     Team is Followed
                 </Button>
-            )
-        }
+            )};
         if (!isFollowed) {
             return (
                 <Button
@@ -147,9 +146,9 @@ const followedButton = () => {
                 >
                     Team Not Followed
                 </Button>
-            )
-        }
-    }
+            )}};
+
+    //call to asyncstorage
 const addOrRemove = async (action, caller, datatoAddorRemove) => {
     let followedKey = ''
     if (caller === 'teams') {
@@ -178,8 +177,6 @@ const addOrRemove = async (action, caller, datatoAddorRemove) => {
         Alert.alert("Couldn't update followed list", error);
     };
 };
-
-    
 
     return (
         <Card containerStyle={styles.card1}>

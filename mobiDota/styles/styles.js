@@ -21,7 +21,7 @@ export default styles = StyleSheet.create({
       alignItems: 'center',
       alignContent: 'center',
       backgroundColor: '#EEE',
-      justifyContent: 'center'
+      justifyContent: 'top'
       
     },
     text: {
@@ -42,4 +42,10 @@ export default styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
       },
+      proteamListItemContentAccordion: {
+        flex:1,
+        flexDirection:'row',
+        justifyContent: 'left',
+        alignItems:'center'
+      }
   });
