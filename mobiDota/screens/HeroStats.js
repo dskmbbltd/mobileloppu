@@ -43,9 +43,7 @@ export default function HeroStats({ navigation }) {
         } else {
         return <Picker mode='dial' style={{ backgroundColor: '#fff', width: '50%' }} selectedValue={selectedHero ? selectedHero : 'none'} onValueChange={(hero) => handleChange(hero)}>
             {heroStats.map((item) => { return (<Picker.Item style={{color: '#000'}} key={item.id} label={item.localized_name} value={item}></Picker.Item> ) })}
-                </Picker>
-                
-                
+                </Picker>       
     }};
 
     const handleChange = (hero) => {

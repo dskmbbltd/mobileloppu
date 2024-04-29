@@ -13,6 +13,7 @@ import Charts from './screens/Charts.js'
 import { Octicons } from '@expo/vector-icons';
 import HeroStats from './screens/HeroStats.js';
 import Proplayer from './screens/Proplayer.js';
+import GraphsHome from './screens/GraphsHome.js';
 
 const Stack = createNativeStackNavigator();
 const ProStack = ({ navigation }) => {
@@ -30,7 +31,6 @@ const ProStack = ({ navigation }) => {
       <Stack.Screen name="Leagues" component={Leagues} />
       <Stack.Screen name="Followed" component={Followed} />
       <Stack.Screen name="Search" component={Search} />
-
     </Stack.Navigator>
   )
 }
@@ -43,6 +43,7 @@ const StatsStack = ({ navigation }) => {
       headerTintColor: '#00001F'
     }}
   >
+    <Stack.Screen name="Graphs Home" component={GraphsHome} />
     <Stack.Screen name="Heroes" component={HeroStats} />
     <Stack.Screen name="Charts" component={Charts} />
   </Stack.Navigator>

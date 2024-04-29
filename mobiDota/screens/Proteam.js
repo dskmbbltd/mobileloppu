@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { ActivityIndicator, Alert, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Alert, Linking, StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -8,12 +8,16 @@ import { useEffect, useState } from 'react';
 import { getDataCacheAPI, getFollowedData, addFollowedData, removeFollowedData } from '../predata/apidatafunctions.js';
 import { LinearGradient } from 'expo-linear-gradient';
 import styles from '../styles/styles.js';
+import { Directions } from 'react-native-gesture-handler';
 
 //links to dotabuff etc for team
 
 export default function Proteam({ navigation, route }) {
     const team = route.params.item;
     console.log(team)
+    const urldatdota = "https://www.datdota.com/teams/"
+    const urldotabuff = "https://www.dotabuff.com/esports/teams/"
+    const urlstratz = "https://stratz.com/teams/"
     const team_id = team.team_id;
     const [teamPlayers, setTeamPlayers] = useState([]);
     const [isLoadingTeamPlayers, setIsLoadingTeamPlayers] = useState(true);
@@ -156,7 +160,6 @@ const addOrRemove = async (action, caller, datatoAddorRemove) => {
     } else {
         followedKey = 'players'
     };
-
     try {
         if (action === 'add') {
             const data = await addFollowedData(followedKey, datatoAddorRemove);
@@ -179,10 +182,16 @@ const addOrRemove = async (action, caller, datatoAddorRemove) => {
 };
 
     return (
-        <Card containerStyle={styles.card1}>
+        <Card containerStyle={styles.cardproteam}>
+            
             <Card.Title style={{color: 'white'}}>{team.name}</Card.Title>
             <Avatar size={50} containerStyle={{backgroundColor: '#000', alignSelf: 'center'}} source={{ uri: team.logo_url }} />
             <Text style={{color: 'white', textAlign: 'center' }}>{'Rating: ' + team.rating}</Text>
+            <View style={{width: '100%', flexDirection: 'row', marginBottom: 2}}>
+            <Button title='Dotabuff' containerStyle={{flex: 1}} buttonStyle={styles.extbuttons} onPress={() => {Linking.openURL(urldotabuff+team_id)}}/>
+            <Button title='DatDota' containerStyle={{flex: 1}} buttonStyle={styles.extbuttons} onPress={() => {Linking.openURL(urldatdota+team_id)}}/>
+            <Button title='Stratz' containerStyle={{flex: 1}} buttonStyle={styles.extbuttons} onPress={() => {Linking.openURL(urlstratz+team_id)}}/>
+            </View>
             {followedButton()}
             {getAPIdata()}
         </Card>
