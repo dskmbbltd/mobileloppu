@@ -27,7 +27,6 @@ const getDataCacheAPI = async (url = '', cache, cachedMaxTime = 600000, caller =
             responseJSON = responseJSON.rows
         }
         if (caller === 'leagues') { // if calling from leagues screen
-            console.log("now in leagues")
             // only set data for league ids found in preset data
             responseJSON = responseJSON.filter(obj => proleagueids.includes(obj.leagueid));
         }
@@ -64,7 +63,6 @@ const addFollowedData = async (cache, dataToAdd) => {
 };
 const removeFollowedData = async (cache, dataToRemove) => {
     try {
-        // await AsyncStorage.removeItem(cache);
         const cachedFollowed = await getFollowedData(cache);
         const dataRemoved = cachedFollowed.filter(followedId => followedId !== dataToRemove);
         await AsyncStorage.setItem(cache, JSON.stringify(dataRemoved));
@@ -85,14 +83,12 @@ const getFollowedAPI = async (cache, caller) => {
                 ")%0AGROUP%20BY%20teams.name%2C%20teams.team_id%2C%20teams.logo_url%2C%20team_rating.rating%2C%20team_rating.wins%2Cteam_rating.losses%0A%0ALIMIT%20200"
         }
         if (caller === 'followedPlayers') {
-            console.log("infollowed")
             url = 'https://api.opendota.com/api/explorer?sql=SELECT%20*%0AFROM%20notable_players%0AJOIN%20players%20using(account_id)%0AWHERE%20notable_players.account_id%20IN%20(' + urlMid + ')';
 
         }
         const response = await fetch(url);
         const responseJSON = await response.json();
         const rows = responseJSON.rows
-        console.log("rows" + rows)
         return rows;
     } catch (e) {
         Alert.alert("Error getting follows")
@@ -104,7 +100,6 @@ const getSearchData = async (searchmode, search) => {
     let url = '';
     switch (searchmode) {
         case 0:
-            // url = 'https://api.opendota.com/api/search?q=' + search;
             url = 'https://api.opendota.com/api/explorer?sql=SELECT%20*%0AFROM%20notable_players%0AJOIN%20players%20using(account_id)%0AWHERE%20notable_players.name%20ILIKE%20%27%25' + search + '%25%27';
             break;
         case 1:

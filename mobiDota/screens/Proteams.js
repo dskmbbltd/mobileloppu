@@ -48,7 +48,7 @@ export default function Proteams({ navigation }) {
         <ListItem.Title style={{color: 'white'}}>{item.name}</ListItem.Title>
         <ListItem.Subtitle style={{color: 'white'}}>{"Rating: "+item.rating}</ListItem.Subtitle>
       </ListItem.Content>
-      <ListItem.Chevron onPress={() => navigation.navigate('Proteam', { item: item })} />
+      <ListItem.Chevron size={30} color={'tomato'} onPress={() => navigation.navigate('Proteam', { item: item })} />
     </ListItem>
   );
 

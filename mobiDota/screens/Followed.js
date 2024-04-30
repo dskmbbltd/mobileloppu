@@ -57,8 +57,8 @@ export default function Followed({ navigation }) {
         <ListItem.Title>{item.name}</ListItem.Title>
         <ListItem.Subtitle>{item.rating}</ListItem.Subtitle>
       </ListItem.Content>
-      {item.logo_url ? <ListItem.Chevron onPress={() => navigation.navigate('Proteam', { item: item })} />
-        : <ListItem.Chevron onPress={() => navigation.navigate('Proplayer', { item: item })} />}
+      {item.logo_url ? <ListItem.Chevron size={30} color={'tomato'} onPress={() => navigation.navigate('Proteam', { item: item })} />
+        : <ListItem.Chevron size={30} color={'tomato'} onPress={() => navigation.navigate('Proplayer', { item: item })} />}
     </ListItem>
   );
 

@@ -1,4 +1,3 @@
-
 import { ActivityIndicator, Alert, FlatList, Text, View } from 'react-native';
 import { useState } from 'react';
 import { ButtonGroup, Button, ListItem, Avatar, SearchBar } from '@rneui/themed';
@@ -57,7 +56,7 @@ export default function Search({ navigation }) {
         <ListItem.Subtitle>{"Current team: "+item.team_name}</ListItem.Subtitle>
         <ListItem.Subtitle>{"Last match time: "+(item.last_match_time ? item.last_match_time : "No info")}</ListItem.Subtitle>
       </ListItem.Content>
-      <ListItem.Chevron onPress={() => navigation.navigate(naviLink, { item: item })} />
+      <ListItem.Chevron size={30} color={'tomato'} onPress={() => navigation.navigate(naviLink, { item: item })} />
           </ListItem>
   )}
   if (selectedIndex === 1) { // team search rendering
@@ -72,7 +71,7 @@ export default function Search({ navigation }) {
         <ListItem.Subtitle>{"Team id: "+item.team_id}</ListItem.Subtitle>
         <ListItem.Subtitle>{"Rating: "+item.rating}</ListItem.Subtitle>
       </ListItem.Content>
-      <ListItem.Chevron onPress={() => navigation.navigate(naviLink, { item: item })} />
+      <ListItem.Chevron size={30} color={'tomato'} onPress={() => navigation.navigate(naviLink, { item: item })} />
     </ListItem>
   )}
 };
