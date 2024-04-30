@@ -1,6 +1,4 @@
-// import { StatusBar } from 'expo-status-bar';
-// import { Button, StyleSheet, Text, View } from 'react-native';
-import { NavigationContainer, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { NavigationContainer} from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './screens/Home.js';
