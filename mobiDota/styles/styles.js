@@ -7,6 +7,17 @@ export default styles = StyleSheet.create({
       justifyContent: 'top',
       backgroundColor: '#000010'
     },
+    containerHero: {
+      // flex: 1,
+      flexDirection: 'row',
+      width: '100%',
+      // alignItems: 'center',
+      // justifyContent: 'center',
+      // justifyContent: 'top',
+      backgroundColor: '#00114F',
+      borderRadius: 10,
+      marginTop: 5
+    },
     card1: {
         backgroundColor: '#00001F',
         borderRadius: 5,

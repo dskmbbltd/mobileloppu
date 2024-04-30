@@ -1,21 +1,13 @@
-// import { StatusBar } from 'expo-status-bar';
-import { ActivityIndicator, Alert, FlatList, StyleSheet, Text, View } from 'react-native';
-import { useEffect, useRef, useState } from 'react';
-// import { NavigationContainer } from '@react-navigation/native';
-// import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-// import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { ButtonGroup, Button, Card, ListItem, Avatar, SearchBar } from '@rneui/themed';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getSearchData, getDataCacheAPI, getFollowedAPI, getFollowedData, addFollowedData, removeFollowedData } from '../predata/apidatafunctions.js';
+
+import { ActivityIndicator, Alert, FlatList, Text, View } from 'react-native';
+import { useState } from 'react';
+import { ButtonGroup, Button, ListItem, Avatar, SearchBar } from '@rneui/themed';
+import { getSearchData } from '../predata/apidatafunctions.js';
 
 export default function Search({ navigation }) {
-  const urldatdota = "https://www.datdota.com/teams/"
-  const urldotabuff = "https://www.dotabuff.com/esports/teams/"
-  const urlstratz = "https://stratz.com/teams/"
-  // const [followedPlayersData, setFollowedPlayersData] = useState([]);
+
   const [searchData, setSearchData] = useState([]);
   const [isLoadingData, setIsLoadingData] = useState(true);
-  // const [isLoadingPlayers, setIsLoadingPlayers] = useState(true);
   const [mode, setMode] = useState('');
   let naviLink = ''
   // Search value
@@ -42,7 +34,6 @@ export default function Search({ navigation }) {
   const getData = async () => {
     try {
       const fetchedData = await getSearchData(selectedIndex, search);
-      // console.log("back here")
       setSearchData(fetchedData);
       setIsLoadingData(false);
     } catch (e) {
@@ -64,7 +55,6 @@ export default function Search({ navigation }) {
         <ListItem.Title>{'Persona name: '+item.personaname}</ListItem.Title>
         <ListItem.Subtitle>{"Account id: "+item.account_id}</ListItem.Subtitle>
         <ListItem.Subtitle>{"Current team: "+item.team_name}</ListItem.Subtitle>
-        {/* <ListItem.Subtitle>{"Similarity: "+item.similarity}</ListItem.Subtitle> */}
         <ListItem.Subtitle>{"Last match time: "+(item.last_match_time ? item.last_match_time : "No info")}</ListItem.Subtitle>
       </ListItem.Content>
       <ListItem.Chevron onPress={() => navigation.navigate(naviLink, { item: item })} />

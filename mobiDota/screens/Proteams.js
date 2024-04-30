@@ -1,14 +1,11 @@
-// import { StatusBar } from 'expo-status-bar';
-import { ActivityIndicator, Alert, Button, FlatList, StyleSheet, Text, View } from 'react-native';
-import { useEffect, useRef, useState } from 'react';
-// import { NavigationContainer } from '@react-navigation/native';
-// import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-// import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Card, ListItem, Avatar } from '@rneui/themed';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import { ActivityIndicator, Alert, FlatList,Text, View } from 'react-native';
+import { useEffect, useState } from 'react';
+
+import { ListItem, Avatar } from '@rneui/themed';
+
 import styles from '../styles/styles.js';
 import {getDataCacheAPI} from '../predata/apidatafunctions.js'
-//TODO
 
 //SEARCH BY PLAYERNAME OR TEAM
 //esim data
@@ -25,10 +22,6 @@ import {getDataCacheAPI} from '../predata/apidatafunctions.js'
 
 
 export default function Proteams({ navigation }) {
-  // const urldatdota = "https://www.datdota.com/teams/";
-  // const urldotabuff = "https://www.dotabuff.com/esports/teams/";
-  // const urlstratz = "https://stratz.com/teams/";
-  // const [playersData, setPlayersData] = useState([]);
   const [teamsData, setTeamsData] = useState([]);
   const [isLoadingTeam, setIsLoadingTeam] = useState(true);
 
@@ -38,7 +31,6 @@ export default function Proteams({ navigation }) {
     const caller = 'proteams';
     try {
       const fetchedData = await getDataCacheAPI(url, cachedTeams, 3600000, caller); //1hour
-      // console.log("back here");
       setTeamsData(fetchedData);
       setIsLoadingTeam(false);
     } catch (e) {

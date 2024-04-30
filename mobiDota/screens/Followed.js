@@ -1,15 +1,9 @@
-// import { StatusBar } from 'expo-status-bar';
-import { ActivityIndicator, Alert, Button, FlatList, StyleSheet, Text, View } from 'react-native';
-import { useEffect, useRef, useState } from 'react';
-// import { NavigationContainer } from '@react-navigation/native';
-// import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-// import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Card, ListItem, Avatar, ButtonGroup } from '@rneui/themed';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getDataCacheAPI, getFollowedAPI, getFollowedData, addFollowedData, removeFollowedData } from '../predata/apidatafunctions.js';
+import { ActivityIndicator, Alert, FlatList, Text, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { ListItem, Avatar, ButtonGroup } from '@rneui/themed';
+import { getFollowedAPI, } from '../predata/apidatafunctions.js';
 import styles from '../styles/styles.js';
-import { Octicons } from '@expo/vector-icons';
-import { Overlay } from '@rneui/base';
+
 //esim data
 // {
 //   "team_id": 9247354,
@@ -23,15 +17,8 @@ import { Overlay } from '@rneui/base';
 // }
 
 export default function Followed({ navigation }) {
-
-
-  // const urldatdota = "https://www.datdota.com/teams/"
-  // const urldotabuff = "https://www.dotabuff.com/esports/teams/"
-  // const urlstratz = "https://stratz.com/teams/"
-  const [followedPlayersData, setFollowedPlayersData] = useState([]);
   const [followedData, setFollowedData] = useState([]);
   const [isLoadingData, setIsLoadingData] = useState(true);
-  // const proTeamIdsAsNmbr = proteamids.map(Number);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [selectedIndexes, setSelectedIndexes] = useState([0, 1]);
 const [visible, setVisible] = useState(false);
@@ -52,9 +39,7 @@ const [visible, setVisible] = useState(false);
     try {
       setIsLoadingData(true)
       const fetchedData = await getFollowedAPI(cache, caller);
-      console.log("back here")
       setFollowedData(fetchedData);
-      console.log(fetchedData)
       setIsLoadingData(false);
     } catch (e) {
       Alert.alert("Error fetching data, function: getData", e)
@@ -63,29 +48,7 @@ const [visible, setVisible] = useState(false);
   
   useEffect(() => { getData() }, [selectedIndex]);
 
-
-  const toggleOverlay = (key) => {
-    console.log(key)
-    setVisible(visible === key ? false : key);
-  };
-
-const PlayerOverlay = (item) => {
-  console.log(item)
-  const kills = parseFloat(item["AVG Kills"]).toFixed(2)
-  return (
-  <Overlay overlayStyle={{backgroundColor: '#fff'}} visible={visible === item.account_id} onBackdropPress={toggleOverlay}>
-  <Card containerStyle={styles.cardContainer}>
-  <View containerStyle={{alignItems: 'center', justifyContent: 'center', marginLeft: 50}}>
-  <Avatar size={'large'} source={{ uri:item.avatarfull}}/>
-  </View>
-    <Card.Title>{item.name}</Card.Title>
-    <Text>{item.account_id}</Text>
-    <Text>{"AVG Kills: "+kills}</Text>
-  </Card>
-</Overlay>
-  )
-}
-  keyExtractor = (item, index) => index.toString();
+   keyExtractor = (item, index) => index.toString();
   renderItem = ({ item }) => (
     
   <ListItem bottomDivider key={item.account_id}>
@@ -114,7 +77,6 @@ const PlayerOverlay = (item) => {
       data={followedData}
       renderItem={renderItem}
     />
-
   </>
   }
   

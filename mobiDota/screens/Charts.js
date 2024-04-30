@@ -1,20 +1,10 @@
-import { StatusBar } from 'expo-status-bar';
-import { ActivityIndicator, Alert, FlatList, StyleSheet, Text, View } from 'react-native';
-import { useEffect, useRef, useState } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { ButtonGroup, Button, Card, ListItem, Avatar, SearchBar } from '@rneui/themed';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getChartData, getSearchData, getDataCacheAPI, getFollowedAPI, getFollowedData, addFollowedData, removeFollowedData } from '../predata/apidatafunctions.js';
-import { ListItemTitle } from '@rneui/base/dist/ListItem/ListItem.Title.js';
-import { BarChart, LineChart, PieChart, PopulationPyramid } from "react-native-gifted-charts";
-import { Divider } from '@rneui/base';
-
+import { ActivityIndicator, Alert, Text, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { getChartData } from '../predata/apidatafunctions.js';
+import { BarChart } from "react-native-gifted-charts";
 
 export default function Charts({ navigation }) {
-
-  const data=[ {value:50}, {value:80}, {value:90}, {value:70} ] // test data
+  // const data=[ {value:50}, {value:80}, {value:90}, {value:70} ] // test data
   const [isLoadingData, setIsLoadingData] = useState(true);
   const [mmrHistogram, setMmrHistogram] = useState([]);
 

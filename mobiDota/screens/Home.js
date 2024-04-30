@@ -1,9 +1,5 @@
-// import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View } from 'react-native';
-// import { NavigationContainer } from '@react-navigation/native';
-// import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-// import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Button, Card, Text, useTheme, withTheme } from '@rneui/base'
+import { View } from 'react-native';
+import { Button, Card, Text } from '@rneui/base'
 import styles from '../styles/styles.js'
 import { Divider } from '@rneui/base';
 
