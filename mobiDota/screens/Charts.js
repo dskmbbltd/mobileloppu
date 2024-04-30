@@ -13,7 +13,6 @@ export default function Charts({ navigation }) {
       const fetchedData = await getChartData('mmrteams');
       const toData = fetchedData.map(({bucket_range,team_count}) => ({ value: team_count, label: bucket_range }));
       setMmrHistogram(toData);
-      console.log(toData);
       setIsLoadingData(false);
     } catch (e) {
       Alert.alert("Error fetching data", e);

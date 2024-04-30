@@ -21,7 +21,7 @@ export default function Followed({ navigation }) {
   const [isLoadingData, setIsLoadingData] = useState(true);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [selectedIndexes, setSelectedIndexes] = useState([0, 1]);
-const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   const getData = async () => {
     let cache = ''
@@ -31,7 +31,7 @@ const [visible, setVisible] = useState(false);
         cache = 'followedTeams'
         caller = 'followedTeams'
         break;
-        case 1:
+      case 1:
         cache = 'players'
         caller = 'followedPlayers'
         break;
@@ -45,20 +45,20 @@ const [visible, setVisible] = useState(false);
       Alert.alert("Error fetching data, function: getData", e)
     }
   }
-  
+
   useEffect(() => { getData() }, [selectedIndex]);
 
-   keyExtractor = (item, index) => index.toString();
+  keyExtractor = (item, index) => index.toString();
   renderItem = ({ item }) => (
-    
-  <ListItem bottomDivider key={item.account_id}>
-      <Avatar containerStyle={{backgroundColor: '#000', alignContent:'center'}} source={{ uri: item.logo_url || item.avatarmedium}} />
+
+    <ListItem bottomDivider key={item.account_id}>
+      <Avatar containerStyle={{ backgroundColor: '#000', alignContent: 'center' }} source={{ uri: item.logo_url || item.avatarmedium }} />
       <ListItem.Content>
         <ListItem.Title>{item.name}</ListItem.Title>
         <ListItem.Subtitle>{item.rating}</ListItem.Subtitle>
       </ListItem.Content>
-      { item.logo_url ? <ListItem.Chevron onPress={() => navigation.navigate('Proteam', { item: item })} />
-    : <ListItem.Chevron onPress={() => navigation.navigate('Proplayer', { item: item })} />}
+      {item.logo_url ? <ListItem.Chevron onPress={() => navigation.navigate('Proteam', { item: item })} />
+        : <ListItem.Chevron onPress={() => navigation.navigate('Proplayer', { item: item })} />}
     </ListItem>
   );
 
@@ -68,7 +68,7 @@ const [visible, setVisible] = useState(false);
       return <><ActivityIndicator style={styles.loading} size="large" /><Text style={{ textAlign: 'center' }}>Fetching data...</Text></>
     }
     if (!followedData) {
-      return <Text style={{textAlign:'center'}}>Followed list is empty</Text>
+      return <Text style={{ textAlign: 'center' }}>Followed list is empty</Text>
     }
     return <><FlatList
       initialNumToRender={15}
@@ -77,21 +77,21 @@ const [visible, setVisible] = useState(false);
       data={followedData}
       renderItem={renderItem}
     />
-  </>
+    </>
   }
-  
+
   return (
     <View >
-       <ButtonGroup
-        selectedButtonStyle={{backgroundColor: '#00001F'}}
+      <ButtonGroup
+        selectedButtonStyle={{ backgroundColor: '#00001F' }}
         buttons={['TEAMS', 'PLAYERS']}
         selectedIndex={selectedIndex}
         onPress={(value) => {
           setSelectedIndex(value);
         }}
-        containerStyle={ styles.button }
+        containerStyle={styles.button}
       />
       {getAPIdata()}
-      </View>
+    </View>
   );
 }
