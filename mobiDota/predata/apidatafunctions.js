@@ -120,7 +120,8 @@ const getSearchData = async (searchmode, search) => {
     let url = '';
     switch (searchmode) {
         case 0:
-            url = 'https://api.opendota.com/api/search?q=' + search;
+            // url = 'https://api.opendota.com/api/search?q=' + search;
+            url = 'https://api.opendota.com/api/explorer?sql=SELECT%20*%0AFROM%20notable_players%0AJOIN%20players%20using(account_id)%0AWHERE%20notable_players.name%20ILIKE%20%27%25'+search+'%25%27';
             break;
         case 1:
             url = 'https://api.opendota.com/api/explorer?sql=SELECT%20t.*%2C%20tr.rating%0D%0AFROM%20teams%20t%0D%0AJOIN%20team_rating%20tr%20ON%20t.team_id%20%3D%20tr.team_id%0D%0AWHERE%20t.name%20ILIKE%20%27%25' + search + '%25%27%0D%0AORDER%20BY%20tr.rating%20DESC%3B';
@@ -133,10 +134,10 @@ const getSearchData = async (searchmode, search) => {
         const response = await fetch(url);
         const responseJSON = await response.json()
         console.log(responseJSON)
-        if (searchmode === 1) {
+        // if (searchmode === 1) {
             console.log(responseJSON.rows)
             return responseJSON.rows
-        }
+        // }
         return responseJSON;
     } catch (e) {
         Alert.alert("Error while searching")

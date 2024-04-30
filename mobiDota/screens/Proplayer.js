@@ -59,7 +59,9 @@ export default function Proplayer({ navigation, route }) {
         {/* <Button title='DatDota' containerStyle={{ flex: 1 }} buttonStyle={styles.extbuttons} onPress={() => { Linking.openURL(urldatdota + player.account_id) }} /> */}
         <Button title='Stratz' containerStyle={{ flex: 1 }} buttonStyle={styles.extbuttons} onPress={() => { Linking.openURL(urlstratz + player.account_id) }} />
       </View>
-      <Text style={{ color: '#fff', textAlign: 'center' }}>{"Last match time: " + (player.last_match_time ? player.last_match_time : "No info")}</Text>
+      <Text style={{ color: '#fff', textAlign: 'center' }}>{player.last_match_time ? "Last match time: "+player.last_match_time :<></>}</Text>
+      <Text style={{ color: '#fff', textAlign: 'center' }}>{player.team_name ? "Team: "+player.team_name :<></>}</Text>
+      <Text style={{ color: '#fff', textAlign: 'center' }}>{player.winrate ? "AVG Kills: "+parseFloat(player['AVG Kills']).toFixed(2) :<></>}</Text>
     </Card>
     // {getAPIdata()}
   );

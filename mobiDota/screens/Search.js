@@ -60,9 +60,11 @@ export default function Search({ navigation }) {
     <ListItem bottomDivider>
       <Avatar containerStyle={{backgroundColor: '#000'}} source={{ uri: item.avatarfull }} />
       <ListItem.Content>
-        <ListItem.Title>{item.personaname}</ListItem.Title>
+        <ListItem.Title>{'Name: '+item.name}</ListItem.Title>
+        <ListItem.Title>{'Persona name: '+item.personaname}</ListItem.Title>
         <ListItem.Subtitle>{"Account id: "+item.account_id}</ListItem.Subtitle>
-        <ListItem.Subtitle>{"Similarity: "+item.similarity}</ListItem.Subtitle>
+        <ListItem.Subtitle>{"Current team: "+item.team_name}</ListItem.Subtitle>
+        {/* <ListItem.Subtitle>{"Similarity: "+item.similarity}</ListItem.Subtitle> */}
         <ListItem.Subtitle>{"Last match time: "+(item.last_match_time ? item.last_match_time : "No info")}</ListItem.Subtitle>
       </ListItem.Content>
       <ListItem.Chevron onPress={() => navigation.navigate(naviLink, { item: item })} />

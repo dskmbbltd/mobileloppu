@@ -101,21 +101,8 @@ export default function App() {
   return (
     
       <NavigationContainer theme={MyTheme}>
-      <Stack.Navigator screenOptions={{
-          headerStyle: {
-            backgroundColor: '#fff', // Set your desired header color here
-          },
-          headerTintColor: '#00001F'
-          }}>
-        <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="Proplayers" component={Proplayers} />
-        <Stack.Screen name="Proteams" component={Proteams} />
-        <Stack.Screen name="Proteam" component={Proteam} />
-        <Stack.Screen name="Leagues" component={Leagues} />
-        <Stack.Screen name="Followed" component={Followed} />
-        <Stack.Screen name="Search" component={Search} />
-        <Stack.Screen name="Charts" component={Charts} />
-      </Stack.Navigator>
+        <TabNavigator/>
     </NavigationContainer>
+
   );
 }

@@ -13,9 +13,6 @@ export default function Home({ navigation }) {
     title: 'TOP 100 Pro teams',
     navigate: 'Proteams'
   },
-  // {
-  //   title: 'Pro players',
-  // navigate: 'Proplayers'},
   {
     title: 'Leagues',
     navigate: 'Leagues'
@@ -27,10 +24,6 @@ export default function Home({ navigation }) {
   {
     title: 'Search',
     navigate: 'Search'
-  },
-  {
-    title: 'Charts',
-    navigate: 'Charts'
   },
   ];
 
