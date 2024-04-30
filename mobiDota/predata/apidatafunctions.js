@@ -1,7 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Alert } from 'react-native';
 import proleagueids from '../predata/proleagueids.js';
-
+// cache: name of stored item in asyncstorage
+// cachedmaxtime: time to consider data as 'fresh'
+// caller: which screen/function/other identifier called the function
 const getDataCacheAPI = async (url = '', cache, cachedMaxTime = 600000, caller = '') => {
     try {
         const cachedData = await AsyncStorage.getItem(cache);
