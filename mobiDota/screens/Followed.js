@@ -70,7 +70,7 @@ export default function Followed({ navigation }) {
     if (!followedData) {
       return <Text style={{ textAlign: 'center' }}>Followed list is empty</Text>
     }
-    return <><FlatList
+    return <><FlatList  //https://reactnative.dev/docs/flatlist
       initialNumToRender={15}
       maxToRenderPerBatch={15}
       keyExtractor={keyExtractor}
@@ -83,7 +83,7 @@ export default function Followed({ navigation }) {
   return (
     <View >
       <ButtonGroup
-        selectedButtonStyle={{ backgroundColor: '#00001F' }}
+        selectedButtonStyle={{ backgroundColor: '#00001F' }}  //https://reactnativeelements.com/docs/components/buttongroup
         buttons={['TEAMS', 'PLAYERS']}
         selectedIndex={selectedIndex}
         onPress={(value) => {

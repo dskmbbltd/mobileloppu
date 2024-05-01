@@ -13,6 +13,8 @@ import HeroStats from './screens/HeroStats.js';
 import Proplayer from './screens/Proplayer.js';
 import GraphsHome from './screens/GraphsHome.js';
 
+
+//https://reactnavigation.org/docs/tab-based-navigation/#a-stack-navigator-for-each-tab
 const Stack = createNativeStackNavigator();
 const ProStack = ({ navigation }) => {
   return (

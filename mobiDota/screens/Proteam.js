@@ -59,12 +59,12 @@ export default function Proteam({ navigation, route }) {
     const getAPIdata = () => {
         if (isLoadingTeamPlayers) {
             return <><ActivityIndicator style={styles.loading} size="large" />
-            <Text style={{ textAlign: 'center' }}>Fetching data...</Text></>
+                <Text style={{ textAlign: 'center' }}>Fetching data...</Text></>
         } if (teamPlayers.length === 0) { // no team member data
-            return <Text style={{marginTop: 15, color: 'white', textAlign:'center'}} >No player data for this team available.</Text>
+            return <Text style={{ marginTop: 15, color: 'white', textAlign: 'center' }} >No player data for this team available.</Text>
         } else return (teamPlayers.map((player, key) => {
-             return (
-                <ListItem.Accordion key={player.account_id} 
+            return (
+                <ListItem.Accordion key={player.account_id}
                     content={
                         <ListItem.Content style={styles.proteamListItemContentAccordion}>
                             {checkFollowed(player.account_id)}
@@ -76,7 +76,7 @@ export default function Proteam({ navigation, route }) {
                     onPress={() => handleExpand(key)}
                 >
                     <ListItem >
-                        <ListItem.Content style={{flex:1, alignItems:'center'}}>
+                        <ListItem.Content style={{ flex: 1, alignItems: 'center' }}>
                             <Text>{"Matches: " + player.count}</Text>
                             <Text>{"Win rate: " + Math.round(player.winrate * 100) + "%"}</Text>
                         </ListItem.Content>
@@ -85,7 +85,7 @@ export default function Proteam({ navigation, route }) {
             );
         }));
     };
-    
+    // player followed buttons
     const checkFollowed = (accid) => {
         if (followedPlayers.includes(accid)) {
             return (
@@ -100,21 +100,24 @@ export default function Proteam({ navigation, route }) {
                 >
                     Followed
                 </Button>
-            )};
+            )
+        };
         return (
             <Button
                 ViewComponent={LinearGradient}
                 linearGradientProps={{
                     colors: ["#03d7fc", "#028299"],
-                        start: { x: 0, y: 0.5 },
-                        end: { x: 1, y: 0.5 },
+                    start: { x: 0, y: 0.5 },
+                    end: { x: 1, y: 0.5 },
                 }}
                 onPress={() => addOrRemove('add', 'players', accid)}
             >
                 Not Followed
             </Button>
-        )};
-const followedButton = () => {
+        )
+    };
+    //team followed button
+    const followedButton = () => {
         if (isFollowed) {
             return (
                 <Button
@@ -128,7 +131,8 @@ const followedButton = () => {
                 >
                     Team is Followed
                 </Button>
-            )};
+            )
+        };
         if (!isFollowed) {
             return (
                 <Button
@@ -142,47 +146,49 @@ const followedButton = () => {
                 >
                     Team Not Followed
                 </Button>
-            )}};
-
-    //call to asyncstorage for following functionality
-const addOrRemove = async (action, caller, datatoAddorRemove) => {
-    let followedKey = ''
-    if (caller === 'teams') {
-        followedKey = 'followedTeams'
-    } else {
-        followedKey = 'players'
-    };
-    try {
-        if (action === 'add') {
-            const data = await addFollowedData(followedKey, datatoAddorRemove);
-            if (caller === 'teams') {
-                setIsFollowed(true);
-            } else {
-                setFollowedPlayers(data);
-            }
-        } else if (action === 'remove') {
-            const data = await removeFollowedData(followedKey, datatoAddorRemove);
-            if (caller === 'teams') {
-                setIsFollowed(false);
-            } else {
-                setFollowedPlayers(data);
-            }
+            )
         }
-    } catch (error) {
-        Alert.alert("Couldn't update followed list", error);
     };
-};
+
+    //call to asyncstorage for following functionality (player or team)
+    const addOrRemove = async (action, caller, datatoAddorRemove) => {
+        let followedKey = ''
+        if (caller === 'teams') {
+            followedKey = 'followedTeams'
+        } else {
+            followedKey = 'players'
+        };
+        try {
+            if (action === 'add') {
+                const data = await addFollowedData(followedKey, datatoAddorRemove);
+                if (caller === 'teams') {
+                    setIsFollowed(true);
+                } else {
+                    setFollowedPlayers(data);
+                }
+            } else if (action === 'remove') {
+                const data = await removeFollowedData(followedKey, datatoAddorRemove);
+                if (caller === 'teams') {
+                    setIsFollowed(false);
+                } else {
+                    setFollowedPlayers(data);
+                }
+            }
+        } catch (error) {
+            Alert.alert("Couldn't update followed list", error);
+        };
+    };
 
     return (
         <Card containerStyle={styles.cardproteam}>
-            
-            <Card.Title style={{color: 'white'}}>{team.name}</Card.Title>
-            <Avatar size={50} containerStyle={{backgroundColor: '#000', alignSelf: 'center'}} source={{ uri: team.logo_url }} />
-            <Text style={{color: 'white', textAlign: 'center' }}>{'Rating: ' + team.rating}</Text>
-            <View style={{width: '100%', flexDirection: 'row', marginBottom: 2}}>
-            <Button title='Dotabuff' containerStyle={{flex: 1}} buttonStyle={styles.extbuttons} onPress={() => {Linking.openURL(urldotabuff+team_id)}}/>
-            <Button title='DatDota' containerStyle={{flex: 1}} buttonStyle={styles.extbuttons} onPress={() => {Linking.openURL(urldatdota+team_id)}}/>
-            <Button title='Stratz' containerStyle={{flex: 1}} buttonStyle={styles.extbuttons} onPress={() => {Linking.openURL(urlstratz+team_id)}}/>
+
+            <Card.Title style={{ color: 'white' }}>{team.name}</Card.Title>
+            <Avatar size={50} containerStyle={{ backgroundColor: '#000', alignSelf: 'center' }} source={{ uri: team.logo_url }} />
+            <Text style={{ color: 'white', textAlign: 'center' }}>{'Rating: ' + team.rating}</Text>
+            <View style={{ width: '100%', flexDirection: 'row', marginBottom: 2 }}>
+                <Button title='Dotabuff' containerStyle={{ flex: 1 }} buttonStyle={styles.extbuttons} onPress={() => { Linking.openURL(urldotabuff + team_id) }} />
+                <Button title='DatDota' containerStyle={{ flex: 1 }} buttonStyle={styles.extbuttons} onPress={() => { Linking.openURL(urldatdota + team_id) }} />
+                <Button title='Stratz' containerStyle={{ flex: 1 }} buttonStyle={styles.extbuttons} onPress={() => { Linking.openURL(urlstratz + team_id) }} />
             </View>
             {followedButton()}
             {getAPIdata()}

@@ -21,7 +21,6 @@ export default function Proplayer({ navigation, route }) {
 
       <Text style={{ color: '#fff', textAlign: 'center' }}>{player.last_match_time ? "Last match time: " + player.last_match_time.replace(/[TZ]/g, ' ') : <></>}</Text>
       <Text style={{ color: '#fff', textAlign: 'center' }}>{player.team_name ? "Team: " + player.team_name : <></>}</Text>
-      <Text style={{ color: '#fff', textAlign: 'center' }}>{player.winrate ? "AVG Kills: " + parseFloat(player['AVG Kills']).toFixed(2) : <></>}</Text>
 
     </Card>
   );
