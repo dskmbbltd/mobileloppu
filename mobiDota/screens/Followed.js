@@ -64,7 +64,7 @@ export default function Followed({ navigation }) {
 
   // RETURNED
   const getAPIdata = () => {
-    if (isLoadingData) {
+    if (isLoadingData) { // https://www.youtube.com/watch?v=_VZfBrmunD4
       return <><ActivityIndicator style={styles.loading} size="large" /><Text style={{ textAlign: 'center' }}>Fetching data...</Text></>
     }
     if (!followedData) {
