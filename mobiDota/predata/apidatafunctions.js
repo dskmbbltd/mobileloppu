@@ -4,8 +4,8 @@ import proleagueids from '../predata/proleagueids.js';
 // cache: name of stored item in asyncstorage
 // cachedmaxtime: time to consider data as 'fresh'
 // caller: which screen/function/other identifier called the function
-const getDataCacheAPI = async (url = '', cache, cachedMaxTime = 600000, caller = '') => {
-    try {
+const getDataCacheAPI = async (url = '', cache, cachedMaxTime = 600000, caller = '') => { //https://stackoverflow.com/questions/47537122/how-i-can-set-expiration-date-for-asyncstorage-react-native
+    try {                                                                                 //https://dev.to/pierre/expiry-tine-react-native-asyncstorage-371l
         const cachedData = await AsyncStorage.getItem(cache);
         const cachedDataTime = await AsyncStorage.getItem(`${cache}Time`);
 
